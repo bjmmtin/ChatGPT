@@ -1,579 +1,462 @@
-"use client";
-
-import {
-  ArrowTopRightOnSquareIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/20/solid";
+import { CheckIcon } from "@heroicons/react/20/solid";
 import {
   ArrowPathIcon,
   CloudArrowUpIcon,
-  CogIcon,
+  FingerPrintIcon,
   LockClosedIcon,
-  ServerIcon,
-  ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 
 const features = [
   {
-    name: "Push to Deploy",
+    name: "Push to deploy",
     description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi vitae lobortis.",
+      "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
     icon: CloudArrowUpIcon,
   },
   {
-    name: "SSL Certificates",
+    name: "SSL certificates",
     description:
-      "Qui aut temporibus nesciunt vitae dicta repellat sit dolores pariatur. Temporibus qui illum aut.",
+      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.",
     icon: LockClosedIcon,
   },
   {
-    name: "Simple Queues",
+    name: "Simple queues",
     description:
-      "Rerum quas incidunt deleniti quaerat suscipit mollitia. Amet repellendus ut odit dolores qui.",
+      "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
     icon: ArrowPathIcon,
   },
   {
-    name: "Advanced Security",
+    name: "Advanced security",
     description:
-      "Ullam laboriosam est voluptatem maxime ut mollitia commodi. Et dignissimos suscipit perspiciatis.",
-    icon: ShieldCheckIcon,
-  },
-  {
-    name: "Powerful API",
-    description:
-      "Ab a facere voluptatem in quia corrupti veritatis aliquam. Veritatis labore quaerat ipsum quaerat id.",
-    icon: CogIcon,
-  },
-  {
-    name: "Database Backups",
-    description:
-      "Quia qui et est officia cupiditate qui consectetur. Ratione similique et impedit ea ipsum et.",
-    icon: ServerIcon,
+      "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
+    icon: FingerPrintIcon,
   },
 ];
-const blogPosts = [
+const tiers = [
+  {
+    name: "Freelancer",
+    id: "tier-freelancer",
+    href: "#",
+    priceMonthly: "$24",
+    description: "The essentials to provide your best work for clients.",
+    features: [
+      "5 products",
+      "Up to 1,000 subscribers",
+      "Basic analytics",
+      "48-hour support response time",
+    ],
+    mostPopular: false,
+  },
+  {
+    name: "Startup",
+    id: "tier-startup",
+    href: "#",
+    priceMonthly: "$32",
+    description: "A plan that scales with your rapidly growing business.",
+    features: [
+      "25 products",
+      "Up to 10,000 subscribers",
+      "Advanced analytics",
+      "24-hour support response time",
+      "Marketing automations",
+    ],
+    mostPopular: true,
+  },
+  {
+    name: "Enterprise",
+    id: "tier-enterprise",
+    href: "#",
+    priceMonthly: "$48",
+    description: "Dedicated support and infrastructure for your company.",
+    features: [
+      "Unlimited products",
+      "Unlimited subscribers",
+      "Advanced analytics",
+      "1-hour, dedicated support response time",
+      "Marketing automations",
+    ],
+    mostPopular: false,
+  },
+];
+const faqs = [
   {
     id: 1,
-    title: "Boost your conversion rate",
-    href: "#",
-    date: "Mar 16, 2020",
-    datetime: "2020-03-16",
-    category: { name: "Article", href: "#" },
-    imageUrl:
-      "https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80",
-    preview:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.",
-    author: {
-      name: "Roel Aufderehar",
-      imageUrl:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      href: "#",
-    },
-    readingLength: "6 min",
+    question: "What's the best thing about Switzerland?",
+    answer:
+      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
-  {
-    id: 2,
-    title: "How to use search engine optimization to drive sales",
-    href: "#",
-    date: "Mar 10, 2020",
-    datetime: "2020-03-10",
-    category: { name: "Video", href: "#" },
-    imageUrl:
-      "https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80",
-    preview:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit facilis asperiores porro quaerat doloribus, eveniet dolore. Adipisci tempora aut inventore optio animi., tempore temporibus quo laudantium.",
-    author: {
-      name: "Brenna Goyette",
-      imageUrl:
-        "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      href: "#",
-    },
-    readingLength: "4 min",
-  },
-  {
-    id: 3,
-    title: "Improve your customer experience",
-    href: "#",
-    date: "Feb 12, 2020",
-    datetime: "2020-02-12",
-    category: { name: "Case Study", href: "#" },
-    imageUrl:
-      "https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80",
-    preview:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint harum rerum voluptatem quo recusandae magni placeat saepe molestiae, sed excepturi cumque corporis perferendis hic.",
-    author: {
-      name: "Daniela Metz",
-      imageUrl:
-        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      href: "#",
-    },
-    readingLength: "11 min",
-  },
+  // More questions...
 ];
-const footerNavigation = {
-  solutions: [
-    { name: "Marketing", href: "#" },
-    { name: "Analytics", href: "#" },
-    { name: "Commerce", href: "#" },
-    { name: "Insights", href: "#" },
-  ],
-  support: [
-    { name: "Pricing", href: "#" },
-    { name: "Documentation", href: "#" },
-    { name: "Guides", href: "#" },
-    { name: "API Status", href: "#" },
-  ],
-  company: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Jobs", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Partners", href: "#" },
-  ],
-  legal: [
-    { name: "Claim", href: "#" },
-    { name: "Privacy", href: "#" },
-    { name: "Terms", href: "#" },
-  ],
-};
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default function Example() {
   return (
     <div className="bg-white">
-      <div className="relative overflow-hidden">
-        <main>
-          <div className="bg-gray-900 pt-10 sm:pt-16 lg:overflow-hidden lg:pb-14 lg:pt-8">
-            <div className="mx-auto max-w-7xl lg:px-8">
-              <div className="lg:grid lg:grid-cols-2 lg:gap-8">
-                <div className="mx-auto max-w-md px-6 sm:max-w-2xl sm:text-center lg:flex lg:items-center lg:px-0 lg:text-left">
-                  <div className="lg:py-24">
-                    <a
-                      href="#"
-                      className="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
-                    >
-                      <span className="rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 px-3 py-0.5 text-sm font-semibold leading-5 text-white">
-                        We&apos;re hiring
-                      </span>
-                      <span className="ml-4 text-sm">
-                        Visit our careers page
-                      </span>
-                      <ChevronRightIcon
-                        className="ml-2 h-5 w-5 text-gray-500"
-                        aria-hidden="true"
-                      />
-                    </a>
-                    <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-                      <span className="block">A better way to</span>
-                      <span className="block bg-gradient-to-r from-teal-200 to-cyan-400 bg-clip-text pb-3 text-transparent sm:pb-5">
-                        ship web apps
-                      </span>
-                    </h1>
-                    <p className="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl">
-                      Anim aute id magna aliqua ad ad non deserunt sunt. Qui
-                      irure qui Lorem cupidatat commodo. Elit sunt amet fugiat
-                      veniam occaecat fugiat.
-                    </p>
-                    <div className="mt-10 sm:mt-12">
-                      <form
-                        action="#"
-                        className="sm:mx-auto sm:max-w-xl lg:mx-0"
-                      >
-                        <div className="sm:flex">
-                          <div className="min-w-0 flex-1">
-                            <label htmlFor="email" className="sr-only">
-                              Email address
-                            </label>
-                            <input
-                              id="email"
-                              type="email"
-                              placeholder="Enter your email"
-                              className="block w-full rounded-md border-0 px-4 py-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-gray-900"
-                            />
-                          </div>
-                          <div className="mt-3 sm:ml-3 sm:mt-0">
-                            <button
-                              type="submit"
-                              className="block w-full rounded-md bg-gradient-to-r from-teal-500 to-cyan-600 px-4 py-3 font-medium text-white shadow hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-gray-900"
-                            >
-                              Start free trial
-                            </button>
-                          </div>
-                        </div>
-                        <p className="mt-3 text-sm text-gray-300 sm:mt-4">
-                          Start your free 14-day trial, no credit card
-                          necessary. By providing your email, you agree to our{" "}
-                          <a href="#" className="font-medium text-white">
-                            terms of service
-                          </a>
-                          .
-                        </p>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <div className="-mb-16 mt-12 sm:-mb-48 lg:relative lg:m-0">
-                  <div className="mx-auto max-w-md px-6 sm:max-w-2xl lg:max-w-none lg:px-0">
-                    {/* Illustration taken from Lucid Illustrations: https://lucid.pixsellz.io/ */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      className="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                      src="https://tailwindui.com/img/component-images/cloud-illustration-teal-cyan.svg"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Feature section with screenshot */}
-          <div className="relative bg-gray-50 pt-16 sm:pt-24 lg:pt-32">
-            <div className="mx-auto max-w-md px-6 text-center sm:max-w-3xl lg:max-w-7xl lg:px-8">
-              <div>
-                <h2 className="text-lg font-semibold text-cyan-600">
-                  Serverless
-                </h2>
-                <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                  No server? No problem.
-                </p>
-                <p className="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-                  Phasellus lorem quam molestie id quisque diam aenean nulla in.
-                  Accumsan in quis quis nunc, ullamcorper malesuada. Eleifend
-                  condimentum id viverra nulla.
-                </p>
-              </div>
-              <div className="-mb-10 mt-12 sm:-mb-24 lg:-mb-80">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className="rounded-lg shadow-xl ring-1 ring-black ring-opacity-5"
-                  src="https://tailwindui.com/img/component-images/green-project-app-screenshot.jpg"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Feature section with grid */}
-          <div className="relative bg-white py-16 sm:py-24 lg:py-32">
-            <div className="mx-auto max-w-md px-6 text-center sm:max-w-3xl lg:max-w-7xl lg:px-8">
-              <h2 className="text-lg font-semibold text-cyan-600">
-                Deploy faster
-              </h2>
-              <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Everything you need to deploy your app
+      {/* Hero section */}
+      <div className="relative pt-14">
+        <div
+          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          aria-hidden="true"
+        >
+          <div
+            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+            style={{
+              clipPath:
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+          />
+        </div>
+        <div className="py-24 sm:py-32">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                Deploy to the cloud with confidence
+              </h1>
+              <p className="mt-6 text-lg leading-8 text-gray-600">
+                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
+                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
+                fugiat aliqua.
               </p>
-              <p className="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-                Phasellus lorem quam molestie id quisque diam aenean nulla in.
-                Accumsan in quis quis nunc, ullamcorper malesuada. Eleifend
-                condimentum id viverra nulla.
-              </p>
-              <div className="mt-12">
-                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                  {features.map((feature) => (
-                    <div key={feature.name} className="pt-6">
-                      <div className="flow-root rounded-lg bg-gray-50 px-6 pb-8">
-                        <div className="-mt-6">
-                          <div>
-                            <span className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-teal-500 to-cyan-600 p-3 shadow-lg">
-                              <feature.icon
-                                className="h-6 w-6 text-white"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          </div>
-                          <h3 className="mt-8 text-lg font-medium tracking-tight text-gray-900">
-                            {feature.name}
-                          </h3>
-                          <p className="mt-5 text-base text-gray-500">
-                            {feature.description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a
+                  href="#"
+                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Get started
+                </a>
+                <a
+                  href="#"
+                  className="text-sm font-semibold leading-6 text-gray-900"
+                >
+                  Learn more <span aria-hidden="true">→</span>
+                </a>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+          aria-hidden="true"
+        >
+          <div
+            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+            style={{
+              clipPath:
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+          />
+        </div>
+      </div>
 
-          {/* Testimonial section */}
-          <div className="bg-gradient-to-r from-teal-500 to-cyan-600 pb-16 lg:relative lg:z-10 lg:pb-0">
-            <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-8 lg:px-8">
-              <div className="relative lg:-my-8">
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-1/2 bg-white lg:hidden"
-                />
-                <div className="mx-auto max-w-md px-6 sm:max-w-3xl lg:h-full lg:p-0">
-                  <div className="aspect-h-6 aspect-w-10 overflow-hidden rounded-xl shadow-xl sm:aspect-h-7 sm:aspect-w-16 lg:aspect-none lg:h-full">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      className="object-cover lg:h-full lg:w-full"
-                      src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="mt-12 lg:col-span-2 lg:m-0 lg:pl-8">
-                <div className="mx-auto max-w-md px-6 sm:max-w-2xl lg:max-w-none lg:px-0 lg:py-20">
-                  <blockquote>
-                    <div>
-                      <svg
-                        className="h-12 w-12 text-white opacity-25"
-                        fill="currentColor"
-                        viewBox="0 0 32 32"
-                        aria-hidden="true"
-                      >
-                        <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                      </svg>
-                      <p className="mt-6 text-2xl font-medium text-white">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed urna nulla vitae laoreet augue. Amet feugiat est
-                        integer dolor auctor adipiscing nunc urna, sit.
-                      </p>
-                    </div>
-                    <footer className="mt-6">
-                      <p className="text-base font-medium text-white">
-                        Judith Black
-                      </p>
-                      <p className="text-base font-medium text-cyan-100">
-                        CEO at PureInsights
-                      </p>
-                    </footer>
-                  </blockquote>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Logo cloud */}
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-12 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+          <img
+            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg"
+            alt="Transistor"
+            width={158}
+            height={48}
+          />
+          <img
+            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg"
+            alt="Reform"
+            width={158}
+            height={48}
+          />
+          <img
+            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg"
+            alt="Tuple"
+            width={158}
+            height={48}
+          />
+          <img
+            className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
+            src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg"
+            alt="SavvyCal"
+            width={158}
+            height={48}
+          />
+          <img
+            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+            src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg"
+            alt="Statamic"
+            width={158}
+            height={48}
+          />
+        </div>
+        <div className="mt-16 flex justify-center">
+          <p className="relative rounded-full px-4 py-1.5 text-sm leading-6 text-gray-600 ring-1 ring-inset ring-gray-900/10 hover:ring-gray-900/20">
+            <span className="hidden md:inline">
+              Transistor saves up to $40,000 per year, per employee by working
+              with us.
+            </span>
+            <a href="#" className="font-semibold text-indigo-600">
+              <span className="absolute inset-0" aria-hidden="true" /> Read our
+              case study <span aria-hidden="true">&rarr;</span>
+            </a>
+          </p>
+        </div>
+      </div>
 
-          {/* Blog section */}
-          <div className="relative bg-gray-50 py-16 sm:py-24 lg:py-32">
-            <div className="relative">
-              <div className="mx-auto max-w-md px-6 text-center sm:max-w-3xl lg:max-w-7xl lg:px-8">
-                <h2 className="text-lg font-semibold text-cyan-600">Learn</h2>
-                <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                  Helpful Resources
-                </p>
-                <p className="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-                  Phasellus lorem quam molestie id quisque diam aenean nulla in.
-                  Accumsan in quis quis nunc, ullamcorper malesuada. Eleifend
-                  condimentum id viverra nulla.
-                </p>
-              </div>
-              <div className="mx-auto mt-12 grid max-w-md gap-8 px-6 sm:max-w-lg lg:max-w-7xl lg:grid-cols-3 lg:px-8">
-                {blogPosts.map((post) => (
-                  <div
-                    key={post.id}
-                    className="flex flex-col overflow-hidden rounded-lg shadow-lg"
-                  >
-                    <div className="flex-shrink-0">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        className="h-48 w-full object-cover"
-                        src={post.imageUrl}
-                        alt=""
-                      />
-                    </div>
-                    <div className="flex flex-1 flex-col justify-between bg-white p-6">
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-cyan-600">
-                          <a
-                            href={post.category.href}
-                            className="hover:underline"
-                          >
-                            {post.category.name}
-                          </a>
-                        </p>
-                        <a href={post.href} className="mt-2 block">
-                          <p className="text-xl font-semibold text-gray-900">
-                            {post.title}
-                          </p>
-                          <p className="mt-3 text-base text-gray-500">
-                            {post.preview}
-                          </p>
-                        </a>
-                      </div>
-                      <div className="mt-6 flex items-center">
-                        <div className="flex-shrink-0">
-                          <a href={post.author.href}>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              className="h-10 w-10 rounded-full"
-                              src={post.author.imageUrl}
-                              alt={post.author.name}
-                            />
-                          </a>
-                        </div>
-                        <div className="ml-3">
-                          <p className="text-sm font-medium text-gray-900">
-                            <a
-                              href={post.author.href}
-                              className="hover:underline"
-                            >
-                              {post.author.name}
-                            </a>
-                          </p>
-                          <div className="flex space-x-1 text-sm text-gray-500">
-                            <time dateTime={post.datetime}>{post.date}</time>
-                            <span aria-hidden="true">&middot;</span>
-                            <span>{post.readingLength} read</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* CTA Section */}
-          <div className="relative bg-gray-900">
-            <div className="relative h-56 bg-indigo-600 sm:h-72 md:absolute md:left-0 md:h-full md:w-1/2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="h-full w-full object-cover"
-                src="https://images.unsplash.com/photo-1525130413817-d45c1d127c42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60&sat=-100"
-                alt=""
-              />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 mix-blend-multiply"
-              />
-            </div>
-            <div className="relative mx-auto max-w-md px-6 py-12 sm:max-w-7xl sm:py-20 md:py-28 lg:px-8 lg:py-32">
-              <div className="md:ml-auto md:w-1/2 md:pl-10">
-                <h2 className="text-lg font-semibold text-gray-300">
-                  Award winning support
-                </h2>
-                <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                  We’re here to help
-                </p>
-                <p className="mt-3 text-lg text-gray-300">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et,
-                  egestas tempus tellus etiam sed. Quam a scelerisque amet
-                  ullamcorper eu enim et fermentum, augue. Aliquet amet volutpat
-                  quisque ut interdum tincidunt duis.
-                </p>
-                <div className="mt-8">
-                  <div className="inline-flex rounded-md shadow">
-                    <a
-                      href="#"
-                      className="inline-flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-gray-900 hover:bg-gray-50"
-                    >
-                      Visit the help center
-                      <ArrowTopRightOnSquareIcon
-                        className="-mr-1 ml-3 h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                      />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-        <footer className="bg-gray-50" aria-labelledby="footer-heading">
-          <h2 id="footer-heading" className="sr-only">
-            Footer
+      {/* Feature section */}
+      <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:text-center">
+          <h2 className="text-base font-semibold leading-7 text-indigo-600">
+            Deploy faster
           </h2>
-          <div className="mx-auto max-w-md px-6 pt-12 sm:max-w-7xl lg:px-8 lg:pt-16">
-            <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-              <div className="space-y-8 xl:col-span-1">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className="h-10"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=300"
-                  alt="Company name"
-                />
-                <p className="text-base text-gray-500">
-                  Making the world a better place through constructing elegant
-                  hierarchies.
-                </p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Everything you need to deploy your app
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
+            Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
+            In mi viverra elit nunc.
+          </p>
+        </div>
+        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+            {features.map((feature) => (
+              <div key={feature.name} className="relative pl-16">
+                <dt className="text-base font-semibold leading-7 text-gray-900">
+                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                    <feature.icon
+                      className="h-6 w-6 text-white"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  {feature.name}
+                </dt>
+                <dd className="mt-2 text-base leading-7 text-gray-600">
+                  {feature.description}
+                </dd>
               </div>
-              <div className="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-                <div className="md:grid md:grid-cols-2 md:gap-8">
-                  <div>
-                    <h3 className="text-base font-medium text-gray-900">
-                      Solutions
-                    </h3>
-                    <ul role="list" className="mt-4 space-y-4">
-                      {footerNavigation.solutions.map((item) => (
-                        <li key={item.name}>
-                          <a
-                            href={item.href}
-                            className="text-base text-gray-500 hover:text-gray-900"
-                          >
-                            {item.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mt-12 md:mt-0">
-                    <h3 className="text-base font-medium text-gray-900">
-                      Support
-                    </h3>
-                    <ul role="list" className="mt-4 space-y-4">
-                      {footerNavigation.support.map((item) => (
-                        <li key={item.name}>
-                          <a
-                            href={item.href}
-                            className="text-base text-gray-500 hover:text-gray-900"
-                          >
-                            {item.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-                <div className="md:grid md:grid-cols-2 md:gap-8">
-                  <div>
-                    <h3 className="text-base font-medium text-gray-900">
-                      Company
-                    </h3>
-                    <ul role="list" className="mt-4 space-y-4">
-                      {footerNavigation.company.map((item) => (
-                        <li key={item.name}>
-                          <a
-                            href={item.href}
-                            className="text-base text-gray-500 hover:text-gray-900"
-                          >
-                            {item.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mt-12 md:mt-0">
-                    <h3 className="text-base font-medium text-gray-900">
-                      Legal
-                    </h3>
-                    <ul role="list" className="mt-4 space-y-4">
-                      {footerNavigation.legal.map((item) => (
-                        <li key={item.name}>
-                          <a
-                            href={item.href}
-                            className="text-base text-gray-500 hover:text-gray-900"
-                          >
-                            {item.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-12 border-t border-gray-200 py-8">
-              <p className="text-base text-gray-400 xl:text-center">
-                &copy; 2020 Your Company, Inc. All rights reserved.
-              </p>
-            </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+
+      {/* Testimonial section */}
+      <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
+        <div className="relative overflow-hidden bg-gray-900 px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
+          <img
+            className="absolute inset-0 h-full w-full object-cover brightness-150 saturate-0"
+            src="https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80"
+            alt=""
+          />
+          <div className="absolute inset-0 bg-gray-900/90 mix-blend-multiply" />
+          <div
+            className="absolute -left-80 -top-56 transform-gpu blur-3xl"
+            aria-hidden="true"
+          >
+            <div
+              className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-[0.45]"
+              style={{
+                clipPath:
+                  "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+              }}
+            />
           </div>
-        </footer>
+          <div
+            className="hidden md:absolute md:bottom-16 md:left-[50rem] md:block md:transform-gpu md:blur-3xl"
+            aria-hidden="true"
+          >
+            <div
+              className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-25"
+              style={{
+                clipPath:
+                  "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+              }}
+            />
+          </div>
+          <div className="relative mx-auto max-w-2xl lg:mx-0">
+            <img
+              className="h-12 w-auto"
+              src="https://tailwindui.com/img/logos/workcation-logo-white.svg"
+              alt=""
+            />
+            <figure>
+              <blockquote className="mt-6 text-lg font-semibold text-white sm:text-xl sm:leading-8">
+                <p>
+                  “Amet amet eget scelerisque tellus sit neque faucibus non
+                  eleifend. Integer eu praesent at a. Ornare arcu gravida
+                  natoque erat et cursus tortor consequat at. Vulputate gravida
+                  sociis enim nullam ultricies habitant malesuada lorem ac.”
+                </p>
+              </blockquote>
+              <figcaption className="mt-6 text-base text-white">
+                <div className="font-semibold">Judith Black</div>
+                <div className="mt-1">CEO of Tuple</div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      {/* Pricing section */}
+      <div className="py-24 sm:pt-48">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="text-base font-semibold leading-7 text-indigo-600">
+              Pricing
+            </h2>
+            <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+              Pricing plans for teams of&nbsp;all&nbsp;sizes
+            </p>
+          </div>
+          <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+            Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et
+            quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.
+          </p>
+          <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {tiers.map((tier, tierIdx) => (
+              <div
+                key={tier.id}
+                className={classNames(
+                  tier.mostPopular ? "lg:z-10 lg:rounded-b-none" : "lg:mt-8",
+                  tierIdx === 0 ? "lg:rounded-r-none" : "",
+                  tierIdx === tiers.length - 1 ? "lg:rounded-l-none" : "",
+                  "flex flex-col justify-between rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10",
+                )}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-x-4">
+                    <h3
+                      id={tier.id}
+                      className={classNames(
+                        tier.mostPopular ? "text-indigo-600" : "text-gray-900",
+                        "text-lg font-semibold leading-8",
+                      )}
+                    >
+                      {tier.name}
+                    </h3>
+                    {tier.mostPopular ? (
+                      <p className="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-indigo-600">
+                        Most popular
+                      </p>
+                    ) : null}
+                  </div>
+                  <p className="mt-4 text-sm leading-6 text-gray-600">
+                    {tier.description}
+                  </p>
+                  <p className="mt-6 flex items-baseline gap-x-1">
+                    <span className="text-4xl font-bold tracking-tight text-gray-900">
+                      {tier.priceMonthly}
+                    </span>
+                    <span className="text-sm font-semibold leading-6 text-gray-600">
+                      /month
+                    </span>
+                  </p>
+                  <ul
+                    role="list"
+                    className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
+                  >
+                    {tier.features.map((feature) => (
+                      <li key={feature} className="flex gap-x-3">
+                        <CheckIcon
+                          className="h-6 w-5 flex-none text-indigo-600"
+                          aria-hidden="true"
+                        />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <a
+                  href={tier.href}
+                  aria-describedby={tier.id}
+                  className={classNames(
+                    tier.mostPopular
+                      ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500"
+                      : "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
+                    "mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                  )}
+                >
+                  Buy plan
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* FAQs */}
+      <div className="mx-auto max-w-2xl divide-y divide-gray-900/10 px-6 pb-8 sm:pb-24 sm:pt-12 lg:max-w-7xl lg:px-8 lg:pb-32">
+        <h2 className="text-2xl font-bold leading-10 tracking-tight text-gray-900">
+          Frequently asked questions
+        </h2>
+        <dl className="mt-10 space-y-8 divide-y divide-gray-900/10">
+          {faqs.map((faq) => (
+            <div key={faq.id} className="pt-8 lg:grid lg:grid-cols-12 lg:gap-8">
+              <dt className="text-base font-semibold leading-7 text-gray-900 lg:col-span-5">
+                {faq.question}
+              </dt>
+              <dd className="mt-4 lg:col-span-7 lg:mt-0">
+                <p className="text-base leading-7 text-gray-600">
+                  {faq.answer}
+                </p>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      {/* CTA section */}
+      <div className="relative -z-10 mt-32 bg-white px-6 lg:px-8">
+        <div
+          className="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 transform-gpu justify-center overflow-hidden blur-3xl sm:bottom-0 sm:right-[calc(50%-6rem)] sm:top-auto sm:translate-y-0 sm:transform-gpu sm:justify-end"
+          aria-hidden="true"
+        >
+          <div
+            className="aspect-[1108/632] w-[69.25rem] flex-none bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-25"
+            style={{
+              clipPath:
+                "polygon(73.6% 48.6%, 91.7% 88.5%, 100% 53.9%, 97.4% 18.1%, 92.5% 15.4%, 75.7% 36.3%, 55.3% 52.8%, 46.5% 50.9%, 45% 37.4%, 50.3% 13.1%, 21.3% 36.2%, 0.1% 0.1%, 5.4% 49.1%, 21.4% 36.4%, 58.9% 100%, 73.6% 48.6%)",
+            }}
+          />
+        </div>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Boost your productivity.
+            <br />
+            Start using our app today.
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
+            Incididunt sint fugiat pariatur cupidatat consectetur sit cillum
+            anim id veniam aliqua proident excepteur commodo do ea.
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <a
+              href="#"
+              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Get started
+            </a>
+            <a
+              href="#"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Learn more <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+        <div
+          className="absolute left-1/2 right-0 top-full -z-10 hidden -translate-y-1/2 transform-gpu overflow-hidden blur-3xl sm:block"
+          aria-hidden="true"
+        >
+          <div
+            className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
+            style={{
+              clipPath:
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+          />
+        </div>
       </div>
     </div>
   );

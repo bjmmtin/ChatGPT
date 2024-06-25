@@ -35,7 +35,7 @@ export default function Example() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    src="/logo.svg"
                     alt="Your Company"
                   />
                 </div>
