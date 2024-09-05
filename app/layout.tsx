@@ -23,7 +23,7 @@ export default function RootLayout({
       <AuthProvider>
         <body>
           <NavBar />
-          <main className="flex-1">{children}</main>
+          <main className="lg:flex-1">{children}</main>
           <Footer />
         </body>
       </AuthProvider>

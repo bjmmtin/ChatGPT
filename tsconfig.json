@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "esnext", // Add this to specify the ECMAScript target version
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -7,7 +8,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler", // Keep this if using module resolution for bundlers like Vite
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -21,6 +22,12 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "webpack.config.ts" // Changed to webpack.config.ts (not .tsx, assuming it's a TypeScript config file)
+  ],
   "exclude": ["node_modules"]
 }
