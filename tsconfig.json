@@ -28,6 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "webpack.config.ts" // Changed to webpack.config.ts (not .tsx, assuming it's a TypeScript config file)
-  ],
+, "app/home/components/Header.jsx", "app/home/components/ChatPrompt.jsx"  ],
   "exclude": ["node_modules"]
 }

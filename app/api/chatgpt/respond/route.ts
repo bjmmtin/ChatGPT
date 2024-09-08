@@ -23,7 +23,7 @@ const openai = new OpenAI({
         return NextResponse.json({ botResponse: chatCompletion.choices[0].message.content },{ status: 201 });
     } catch (error) {
         console.error("Error calling OpenAI:", error);
-        return NextResponse.json({ error: "Failed to generate response from OpenAI" },{ status: 400 });
+        return NextResponse.json({ error: `Failed to generate response from OpenAI + ${error} `},{ status: 400 });
     }
   
   }
