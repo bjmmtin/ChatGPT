@@ -12,7 +12,7 @@ interface ChatLogEntry {
 }
 
 const Home = () => {
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [newChatPromt, setnewChatPromt] = useState<boolean>(true);
   const [inputPrompt, setInputPrompt] = useState<string>("");
 
   const [chatLog, setChatLog] = useState<ChatLogEntry[]>([]);
@@ -66,14 +66,12 @@ const Home = () => {
       };
 
       setChatLog((prevChatLog) => [...prevChatLog, newChatLogEntry]);
-      console.log(chatLog);
-
       // hide the keyboard in mobile devices
       // e.target.querySelector("input").blur();
       setInputHeight(35);
       setInputPrompt(""); // Clear input after submitting
       setResponseFromAPI(true); // Indicate that a response is being awaited
-
+      setnewChatPromt(false);
       try {
         const response = await fetch("/api/chatgpt/respond", {
           method: "POST",
@@ -84,11 +82,11 @@ const Home = () => {
 
         // Update chat log with the new response
         if (chatLog.length >= 0)
+          setnewChatPromt(true)
           setChatLog((prevChatLog) => [
             ...prevChatLog.slice(0, prevChatLog.length - 1), // all entries except the last
             { ...newChatLogEntry, botMessage: data.botResponse }, // update the last entry with the bot's response
           ]);
-        console.log(chatLog);
 
         setErr(false);
       } catch (error) {
@@ -150,13 +148,13 @@ const Home = () => {
               ))}
             </div>
           )}
-          <ChatPrompt
+          {newChatPromt&&<ChatPrompt
             inputHeight={inputHeight}
             handleKeyDown={handleKeyDown}
             inputPrompt={inputPrompt}
             setInputPrompt={setInputPrompt}
             handleSubmit={handleSubmit}
-          />
+          />}
           <div className="min-h-[40px] w-full"></div>
         </div>
       </div>

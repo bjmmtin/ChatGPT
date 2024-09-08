@@ -1,17 +1,31 @@
 "use client";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Navbar() {
+  const [active, setActive] = useState('Landing');
+
   const { status, data: session } = useSession();
+
+  const lists = ['Landing', 'ChatGPT', 'About Us', 'Calendar'];
+  const urls  = ['/', '/ChatGPT', '#','#'];
+  const pathname = usePathname();
+  useEffect(() => {
+    if (pathname === '/ChatGPT') setActive('ChatGPT');
+    else if (pathname === '/') setActive('Landing');
+    else setActive('');
+  }, [pathname]);
+
+
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
@@ -41,30 +55,16 @@ export default function Example() {
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                  <a
-                    href="/"
-                    className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
-                  >
-                    Landing
-                  </a>
-                  <a
-                    href="/home"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    ChatGPT
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    About Us
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Calendar
-                  </a>
+                  {lists.map((list, index) => (
+                    <Link
+                      href={urls[index]}
+                      className={list === active ? "inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900" : "inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                      } key={index}
+                      onClick={() => setActive(list)}
+                    >
+                      {list}
+                    </Link>
+                  ))}
                 </div>
               </div>
               <div className="flex items-center">

@@ -11,7 +11,7 @@ const BotResponse: React.FC<BotResponseProps> = ({ response, chatLogRef }) => {
   const [isPrinting, setIsPrinting] = useState(true);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => {   
     let index = 1;
     let msg = setInterval(() => {
       if (response !== " - The Ultimate AI Assistant") {

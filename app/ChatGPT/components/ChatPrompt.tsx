@@ -17,9 +17,9 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({
 }) => {
   return (
     <div>
-      <div className="grouprelative flex items-start md:mx-auto md:max-w-3xl xl:max-w-4xl">
-        <div className="flex-1 overflow-hidden px-1 py-2">
-          <div className="flex flex-col items-center">
+      <div className="grouprelative flex items-start md:mx-auto md:max-w-3xl xl:max-w-4xl ">
+        <div className="flex-1 overflow-hidden px-1 py-2 ">
+          <div className="flex flex-col items-center bg-[#F7F7F7]">
             <div className="bg-background-root border-outline border-md w-full overflow-hidden rounded-md border border-solid">
               <div
                 className="animate-fade-in bg-background-root w-full p-2 transition-all duration-75"
@@ -39,7 +39,7 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({
                       <div className="relative flex w-full">
                         <div className="relative flex w-full flex-col gap-y-2">
                           <textarea
-                            className=" text-foreground m-0  h-full  resize-none rounded-md border border-solid p-1.5 text-sm outline-none hover:bg-[#909e9e1a] focus-visible:border focus-visible:border-[#3b82f6]  focus-visible:ring-2 focus-visible:ring-blue-500"
+                            className="overflow-auto whitespace-pre-wrap break-words text-foreground m-0  h-full  resize-none rounded-md border border-solid p-1.5 text-sm outline-none focus-visible:bg-white hover:bg-[#909e9e1a] focus-visible:border focus-visible:border-[#3b82f6]  focus-visible:ring-2 focus-visible:ring-blue-500"
                             onKeyDown={handleKeyDown}
                             value={inputPrompt}
                             onChange={(e) => setInputPrompt(e.target.value)}

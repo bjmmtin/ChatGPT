@@ -28,8 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "webpack.config.ts",
-    "app/home/components/Header.tsx",
-    "app/home/components/ChatPrompt.tsx"
+    "app/ChatGPT/components/Header.tsx",
+    "app/ChatGPT/components/ChatPrompt.tsx"
   ],
   "exclude": ["node_modules"]
 }
