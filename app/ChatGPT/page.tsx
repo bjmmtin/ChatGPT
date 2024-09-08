@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import BotMessage from "./components/BotMessage";
+import ChatPrompt from "./components/ChatPrompt";
 import Error from "./components/Error";
 import Loading from "./components/Loading";
-import ChatPrompt from "./components/ChatPrompt";
-import BotMessage from "./components/BotMessage";
+import SubscribeNow from "./components/SubscribeNow";
 
 interface ChatLogEntry {
   chatPrompt: string;
@@ -81,12 +82,11 @@ const Home = () => {
         const data = await response.json();
 
         // Update chat log with the new response
-        if (chatLog.length >= 0)
-          setnewChatPromt(true)
-          setChatLog((prevChatLog) => [
-            ...prevChatLog.slice(0, prevChatLog.length - 1), // all entries except the last
-            { ...newChatLogEntry, botMessage: data.botResponse }, // update the last entry with the bot's response
-          ]);
+        if (chatLog.length >= 0) setnewChatPromt(true);
+        setChatLog((prevChatLog) => [
+          ...prevChatLog.slice(0, prevChatLog.length - 1), // all entries except the last
+          { ...newChatLogEntry, botMessage: data.botResponse }, // update the last entry with the bot's response
+        ]);
 
         setErr(false);
       } catch (error) {
@@ -110,6 +110,7 @@ const Home = () => {
 
   return (
     <>
+      <SubscribeNow />
       <div
         dir="ltr"
         className="relative my-0 flex flex-grow flex-col gap-y-2 overflow-x-visible overflow-y-scroll px-1 sm:gap-y-3 sm:px-2 md:gap-y-4 md:px-3"
@@ -148,13 +149,15 @@ const Home = () => {
               ))}
             </div>
           )}
-          {newChatPromt&&<ChatPrompt
-            inputHeight={inputHeight}
-            handleKeyDown={handleKeyDown}
-            inputPrompt={inputPrompt}
-            setInputPrompt={setInputPrompt}
-            handleSubmit={handleSubmit}
-          />}
+          {newChatPromt && (
+            <ChatPrompt
+              inputHeight={inputHeight}
+              handleKeyDown={handleKeyDown}
+              inputPrompt={inputPrompt}
+              setInputPrompt={setInputPrompt}
+              handleSubmit={handleSubmit}
+            />
+          )}
           <div className="min-h-[40px] w-full"></div>
         </div>
       </div>
