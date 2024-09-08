@@ -1,6 +1,11 @@
 import React from "react";
 
-const NavPrompt = ({ chatPrompt, setShowMenu }) => {
+interface NavPromptProps {
+  chatPrompt: string;
+  setShowMenu: (show: boolean) => void;
+}
+
+const NavPrompt: React.FC<NavPromptProps> = ({ chatPrompt, setShowMenu }) => {
   const chatPromptCharacters = chatPrompt.split("");
   const navPromptHref = `navPrompt-${chatPrompt.replace(/[^a-zA-Z0-9]/g, "-")}`;
 

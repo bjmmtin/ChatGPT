@@ -1,7 +1,12 @@
-import React, { useEffect } from "react";
+import React, { RefObject, useEffect } from "react";
 import { useState } from "react";
 
-const BotResponse = ({ response, chatLogRef }) => {
+interface BotResponseProps {
+  response: string;
+  chatLogRef: RefObject<HTMLDivElement> | null;
+}
+
+const BotResponse: React.FC<BotResponseProps> = ({ response, chatLogRef }) => {
   const [botResoponse, setBotResponse] = useState("");
   const [isPrinting, setIsPrinting] = useState(true);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -25,8 +30,8 @@ const BotResponse = ({ response, chatLogRef }) => {
       index++;
 
       // scroll to the bottom of the page whenever the messages array is updated
-      if (chatLogRef !== undefined) {
-        chatLogRef.current.scrollIntoView({
+      if (chatLogRef !== null) {
+        chatLogRef.current?.scrollIntoView({
           behavior: "smooth",
           block: "end",
         });

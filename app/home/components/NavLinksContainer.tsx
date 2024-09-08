@@ -2,7 +2,15 @@ import React from "react";
 import NavLinks from "./NavLink";
 import BuyMeACoffeeButton from "./BuyMeACoffeeButton";
 
-const NavLinksContainer = ({ chatLog, setChatLog }) => {
+interface NavLinksContainerProps {
+  chatLog: string[];
+  setChatLog: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const NavLinksContainer: React.FC<NavLinksContainerProps> = ({
+  chatLog,
+  setChatLog,
+}) => {
   return (
     <div className="absolute bottom-5">
       {chatLog.length > 0 && (
@@ -51,6 +59,7 @@ const NavLinksContainer = ({ chatLog, setChatLog }) => {
           }
           text="Clear Conversations"
           setChatLog={setChatLog}
+          link={""}
         />
       )}
       <NavLinks
@@ -75,6 +84,9 @@ const NavLinksContainer = ({ chatLog, setChatLog }) => {
         }
         text="OpenAI Discord"
         link="https://discord.com/invite/openai"
+        setChatLog={function (value: React.SetStateAction<string[]>): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       <NavLinks
         svg={
@@ -96,6 +108,9 @@ const NavLinksContainer = ({ chatLog, setChatLog }) => {
         }
         text="Updates & FAQ"
         link="https://help.openai.com/en/collections/3742473-chatgpt"
+        setChatLog={function (value: React.SetStateAction<string[]>): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       <NavLinks
         svg={
@@ -118,6 +133,9 @@ const NavLinksContainer = ({ chatLog, setChatLog }) => {
         }
         text="Log out"
         link=""
+        setChatLog={function (value: React.SetStateAction<string[]>): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       <BuyMeACoffeeButton />
     </div>

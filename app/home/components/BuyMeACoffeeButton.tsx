@@ -11,6 +11,7 @@ const BuyMeACoffeeButton = () => {
         target="_blank"
         rel="noreferrer"
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/buymeacoffee.png"
           alt="Buy Me A Coffee Widget"

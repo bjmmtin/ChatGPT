@@ -1,6 +1,12 @@
 import React from "react";
 
-const SvgComponent = ({ w, h, stroke }) => {
+interface SvgComponentProps {
+  w: number;
+  h: number;
+  stroke: string;
+}
+
+const SvgComponent: React.FC<SvgComponentProps> = ({ w, h, stroke }) => {
   return (
     <svg
       width={w}

@@ -6,7 +6,10 @@ const IntroSection = () => {
     <div className="p-5 text-left" id="introsection">
       <h1 className="my-[1.66rem] flex pt-5 text-[2rem] font-bold">
         Introducing Talkbot
-        <BotResponse response=" - The Ultimate AI Assistant" />
+        <BotResponse
+          response=" - The Ultimate AI Assistant"
+          chatLogRef={null}
+        />
       </h1>
       <h2 className="my-[0.83rem]">
         A cutting-edge AI-powered app that provides instant answers to any
