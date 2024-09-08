@@ -3,16 +3,16 @@ import BotResponse from "./BotResponse";
 
 const IntroSection = () => {
   return (
-    <div className="text-left p-5" id="introsection">
-      <h1 className="text-[2rem] my-[1.66rem] font-bold pt-5 flex" >
+    <div className="p-5 text-left" id="introsection">
+      <h1 className="my-[1.66rem] flex pt-5 text-[2rem] font-bold">
         Introducing Talkbot
         <BotResponse response=" - The Ultimate AI Assistant" />
       </h1>
       <h2 className="my-[0.83rem]">
         A cutting-edge AI-powered app that provides instant answers to any
-        question you may have. With Talkbot, you'll never be left searching for
-        answers again. Whether you need information for school or work, or just
-        want to know the latest news, Talkbot has you covered.
+        question you may have. With Talkbot, you&apos;ll never be left searching
+        for answers again. Whether you need information for school or work, or
+        just want to know the latest news, Talkbot has you covered.
       </h2>
       Features:
       <ul className="my-4 list-square pl-10">
