@@ -12,12 +12,12 @@ function classNames(...classes: string[]) {
 }
 
 export default function Navbar() {
-  const [active, setActive] = useState('Landing');
+  const [active, setActive] = useState('ChatGPT');
 
   const { status, data: session } = useSession();
 
   const lists = ['Landing', 'ChatGPT', 'About Us', 'Calendar'];
-  const urls  = ['/', '/ChatGPT', '#','#'];
+  const urls = ['/', '/ChatGPT', '#', '#'];
   const pathname = usePathname();
   useEffect(() => {
     if (pathname === '/ChatGPT') setActive('ChatGPT');
@@ -95,7 +95,7 @@ export default function Navbar() {
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
-                          <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                          <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none px-2 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             {/* AVATAR PLACE HOLDER */}
@@ -108,6 +108,14 @@ export default function Navbar() {
                                 <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                               </svg>
                             </span>
+                            <div className="ml-3">
+                              <div className="text-base font-medium text-gray-800">
+                                {session.user?.name}
+                              </div>
+                              <div className="text-sm font-medium text-gray-500">
+                                {session.user?.email}
+                              </div>
+                            </div>
                           </Menu.Button>
                         </div>
                         <Transition

@@ -1,4 +1,5 @@
 import React from "react";
+import ChatAiSvg from "./ChatAISvg";
 
 interface Props {
   botMessage: string | null;
@@ -9,11 +10,14 @@ const BotMessage: React.FC<Props> = ({ botMessage }) => {
     <div>
       <div className="grouprelative flex items-start md:mx-auto md:max-w-3xl xl:max-w-4xl">
         <div className="flex-1 overflow-hidden px-2">
-          <div className="overflow-x-auto pt-2">
+          <div className="overflow-x-auto  pt-2">
+            <div className="relative p-1 rounded-sm flex items-center justify-center bg-token-main-surface-primary text-token-text-primary h-8 w-8">
+              <ChatAiSvg size={41}/>
+            </div>
             <div>
               <div className="px-1 pb-2">
                 <div className="markdown prose prose-sm prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-headings:my-2 prose-p:my-2 prose-blockquote:my-2 prose-blockquote:font-normal prose-pre:rounded-none prose-li:pl-1 prose-ol:pl-2  prose-ol:pb-2 prose-pre:bg-transparent prose-li:m-0 prose-ul:p-0 prose-ol:m-0 prose-ul:m-0 prose-hr:my-4 prose-th:font-semibold prose-tr:border-border prose-tr:border-b prose-th:text-left max-w-full leading-[1.5rem] text-black">
-                  <pre className="overflow-auto whitespace-pre-wrap break-words">{botMessage}</pre>
+                  <pre className="overflow-auto whitespace-pre-wrap break-words ">{botMessage}</pre>
                 </div>
               </div>
             </div>

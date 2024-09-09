@@ -20,14 +20,14 @@ export default function SignIn() {
       email,
       password,
     });
-
+      
     setIsLoading(false);
 
     if (result?.error) {
       console.log("Login Error: " + result.error);
       setError(result.error);
     } else {
-      router.push(`/home`);
+      router.push(`/ChatGPT`);
     }
   };
 

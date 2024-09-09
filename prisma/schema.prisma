@@ -14,9 +14,24 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  email          String   @unique
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
   hashedPassword String?
   name           String
-  registeredAt   DateTime @default(now())
+  registeredAt   DateTime  @default(now())
+  messages       Message[] // Relation: One User has many Messages
 }
+
+model Message {
+  id           Int       @id @default(autoincrement())
+  userId       Int       // Foreign key: links to User model
+  botMessage   Json    // Message sent by the bot
+  chatPrompt   Json    // Chat prompt from the user
+  createdAt    DateTime  @default(now()) // Timestamp
+
+  user         User      @relation(fields: [userId], references: [id]) // Relation to User
+
+  @@index([userId]) // Optional: index for faster lookups by userId
+}
+
+

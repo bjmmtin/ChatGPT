@@ -1,11 +1,14 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import BotMessage from "./components/BotMessage";
 import ChatPrompt from "./components/ChatPrompt";
+import UserPrompt from "./components/UserPrompt"
 import Error from "./components/Error";
 import Loading from "./components/Loading";
 import SubscribeNow from "./components/SubscribeNow";
-
+import { useSession } from "next-auth/react";
+import NavLinks from "./components/NavLink";
+import ChatAiSvg from "./components/ChatAISvg";
 interface ChatLogEntry {
   chatPrompt: string;
   botMessage: string | null;
@@ -13,6 +16,8 @@ interface ChatLogEntry {
 }
 
 const Home = () => {
+  const [fetching, setFetching] = useState(false);
+  const { status, data: session } = useSession();
   const [newChatPromt, setnewChatPromt] = useState<boolean>(true);
   const [inputPrompt, setInputPrompt] = useState<string>("");
 
@@ -74,11 +79,21 @@ const Home = () => {
       setResponseFromAPI(true); // Indicate that a response is being awaited
       setnewChatPromt(false);
       try {
-        const response = await fetch("/api/chatgpt/respond", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: inputPrompt }),
-        });
+        let response = null;
+        if (status === 'authenticated') {
+          response = await fetch("/api/chatgpt/respond", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: inputPrompt, userEmail: session.user?.email, date: session.expires }),
+          });
+        }
+        else {
+          response = await fetch("/api/chatgpt/respond", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: inputPrompt, userEmail: "Guest", date: '' }),
+          });
+        }
         const data = await response.json();
 
         // Update chat log with the new response
@@ -97,68 +112,113 @@ const Home = () => {
       }
     }
   };
+  const fetchMessagesByEmail = useCallback(async () => {
+    if (fetching) return; // Prevent fetch if already in progress
+
+    setFetching(true);
+    try {
+      const response = await fetch(`/api/chatgpt/getMessages?email=${encodeURIComponent(session?.user?.email as string)}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+
+      if (!response.ok) {
+        console.log('Failed to fetch messages');
+      }
+      const { messages } = await response.json();
+
+      // Check if data is an array
+      if (Array.isArray(messages)) {
+        // Process the messages if it's an array
+        messages.map((msg: { chatPrompt: any; botMessage: any; }) => {
+          const newChatLogEntry = {
+            chatPrompt: msg.chatPrompt,
+            botMessage: msg.botMessage,
+            inputHeight: 0,
+          };
+
+          setChatLog((prevChatLog) => [...prevChatLog, newChatLogEntry]);
+        });
+      }
+      console.log('Fetched messages:', messages);
+      return messages;
+    } catch (error) {
+      console.log('Failed to fetch messages', error);
+    }
+  }, [session?.user?.email]);
 
   useEffect(() => {
     // Scroll to the bottom of the chat log to show the latest message
-    if (chatLogEndRef.current) {
-      chatLogEndRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
+    if (status === 'authenticated') {
+      fetchMessagesByEmail();
     }
-  }, [chatLog]);
+
+  }, [fetchMessagesByEmail, status]);
 
   return (
     <>
       <SubscribeNow />
-      <div
-        dir="ltr"
-        className="relative my-0 flex flex-grow flex-col gap-y-2 overflow-x-visible overflow-y-scroll px-1 sm:gap-y-3 sm:px-2 md:gap-y-4 md:px-3"
-        id="chat-body"
-      >
-        <div className="relative py-2 sm:py-3 md:py-4">
-          {chatLog.length > 0 && (
-            <div>
-              {chatLog.map((chat, idx) => (
-                <div key={idx} id={`chat-${idx}`}>
-                  <ChatPrompt
-                    inputHeight={chat.inputHeight}
-                    handleKeyDown={(
-                      e: React.KeyboardEvent<HTMLTextAreaElement>,
-                    ) => handleKeyDownByID(idx, e)}
-                    inputPrompt={chat.chatPrompt}
-                    setInputPrompt={(str: string) =>
-                      updateChatPromptById(idx, str)
-                    }
-                    handleSubmit={handleSubmit}
-                  />
-                  <div>
-                    {chat.botMessage === "Loading..." ? (
-                      <Loading />
-                    ) : err ? (
-                      <Error
-                        message={
-                          typeof err === "string" ? err : "An error occurred."
-                        }
-                      />
-                    ) : (
-                      <BotMessage botMessage={chat.botMessage} />
-                    )}
+
+      <div className="flex relative">
+        <div className="w-[332px] bg-[#F7F7F7] rounded-md h-[calc(100vh-120px)] z-10 overflow-auto">
+          {chatLog.length > 0 &&
+            chatLog.map((chat, idx) => (
+              <NavLinks
+                text={chat.chatPrompt}
+                link={"#chat-" + idx}
+                setChatLog={function (value: React.SetStateAction<string[]>): void {
+                  console.log("Function not implemented.");
+                }}
+                key={idx}
+                svg={
+                 <ChatAiSvg size={21}/>
+                }
+              />
+            ))}
+        </div>
+
+        <div
+          dir="ltr"
+          className="h-[calc(100vh-120px)] w-full overflow-auto absolute z-0"
+          id="chat-body"
+        >
+          <div className="relative py-2 sm:py-3 md:py-4">
+            {chatLog.length > 0 && (
+              <div>
+                {chatLog.map((chat, idx) => (
+                  <div key={idx} id={`chat-${idx}`}>
+                    <UserPrompt
+                      inputPrompt={chat.chatPrompt}
+                    />
+                    <div>
+                      {chat.botMessage === null ? (
+                        <Loading />
+                      ) : err ? (
+                        <Error
+                          message={
+                            typeof err === "string" ? err : "An error occurred."
+                          }
+                        />
+                      ) : (
+                        <BotMessage botMessage={chat.botMessage} />
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-          {newChatPromt && (
-            <ChatPrompt
-              inputHeight={inputHeight}
-              handleKeyDown={handleKeyDown}
-              inputPrompt={inputPrompt}
-              setInputPrompt={setInputPrompt}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          <div className="min-h-[40px] w-full"></div>
+                ))}
+              </div>
+            )}
+            {newChatPromt && (
+              <ChatPrompt
+                inputHeight={inputHeight}
+                handleKeyDown={handleKeyDown}
+                inputPrompt={inputPrompt}
+                setInputPrompt={setInputPrompt}
+                handleSubmit={handleSubmit}
+              />
+            )}
+            <div className="min-h-[40px] w-full"></div>
+          </div>
         </div>
       </div>
     </>
