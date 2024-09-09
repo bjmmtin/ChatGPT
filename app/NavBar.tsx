@@ -2,18 +2,21 @@
 import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { PlusIcon } from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import HistorySVG from "./ChatGPT/components/HistorySVG"
+import NewChatSVG from "./ChatGPT/components/NewChatSVG"
+import { useChatLogContext } from "./context/ChatLog";
+import SideBar from "./ChatGPT/components/SideBar";
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
+  const { initObject } = useChatLogContext();
   const [active, setActive] = useState('ChatGPT');
-
+  const [activeSidebar, setActiveSidebar] = useState(false);
   const { status, data: session } = useSession();
 
   const lists = ['Landing', 'ChatGPT', 'About Us', 'Calendar'];
@@ -30,7 +33,8 @@ export default function Navbar() {
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {activeSidebar && active === 'ChatGPT' && <SideBar setActiveSidebar={setActiveSidebar} />}
+          <div className="  px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 justify-between">
               <div className="flex">
                 <div className="-ml-2 mr-2 flex items-center md:hidden">
@@ -45,14 +49,28 @@ export default function Navbar() {
                     )}
                   </Disclosure.Button>
                 </div>
-                <div className="flex flex-shrink-0 items-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    className="h-8 w-auto"
-                    src="/logo.svg"
-                    alt="Your Company"
-                  />
-                </div>
+                {active === 'ChatGPT' ?
+                  <div className="flex">
+                    <div className="flex text-gray-500 pt-3 " data-state="closed">
+                      <button aria-label="Open sidebar" className="h-10 hover:bg-[#909e9e1a] rounded-lg px-2 focus-visible:outline-0" onClick={()=>setActiveSidebar(prev=>!prev)}>
+                        <HistorySVG size={31} />
+                      </button>
+                    </div>
+                    <div className="flex text-gray-500 pt-3" data-state="closed">
+                      <button aria-label="New chat" className="h-10 rounded-lg px-2 hover:bg-[#909e9e1a] focus-visible:outline-0" onClick={initObject}>
+                        <NewChatSVG size={31} />
+                      </button>
+                    </div>
+                  </div> :
+                  <div className="flex flex-shrink-0 items-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      className="h-8 w-auto"
+                      src="/logo.svg"
+                      alt="Your Company"
+                    />
+                  </div>}
+
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
                   {lists.map((list, index) => (
@@ -70,7 +88,7 @@ export default function Navbar() {
               <div className="flex items-center">
                 {status === "authenticated" ? (
                   <div className="flex">
-                    <div className="flex-shrink-0">
+                    {/* <div className="flex-shrink-0">
                       <button
                         type="button"
                         className="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -81,7 +99,7 @@ export default function Navbar() {
                         />
                         Add
                       </button>
-                    </div>
+                    </div> */}
 
                     <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
                       <button

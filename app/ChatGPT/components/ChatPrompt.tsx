@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface ChatPromptProps {
@@ -17,8 +18,8 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({
 }) => {
   return (
     <div>
-      <div className="grouprelative flex items-start md:mx-auto md:max-w-3xl xl:max-w-4xl ">
-        <div className="flex-1 overflow-hidden px-1 py-2 ">
+      <div className="grouprelative   flex items-start md:mx-auto md:max-w-3xl xl:max-w-4xl ">
+        <div className="flex-1  overflow-hidden px-1 py-2 ">
           <div className="flex flex-col items-center bg-[#F7F7F7]">
             <div className="bg-background-root border-outline border-md w-full overflow-hidden rounded-md border border-solid">
               <div
@@ -184,7 +185,7 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({
                             disabled={false}
                           >
                             Send
-                            <img
+                            <Image
                               alt="⮐"
                               loading="lazy"
                               width="12"

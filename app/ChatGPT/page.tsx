@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import BotMessage from "./components/BotMessage";
 import ChatPrompt from "./components/ChatPrompt";
 import UserPrompt from "./components/UserPrompt"
@@ -7,13 +7,8 @@ import Error from "./components/Error";
 import Loading from "./components/Loading";
 import SubscribeNow from "./components/SubscribeNow";
 import { useSession } from "next-auth/react";
-import NavLinks from "./components/NavLink";
-import ChatAiSvg from "./components/ChatAISvg";
-interface ChatLogEntry {
-  chatPrompt: string;
-  botMessage: string | null;
-  inputHeight: number;
-}
+
+import { useChatLogContext, ChatLogEntry } from "../context/ChatLog";
 
 const Home = () => {
   const [fetching, setFetching] = useState(false);
@@ -21,34 +16,11 @@ const Home = () => {
   const [newChatPromt, setnewChatPromt] = useState<boolean>(true);
   const [inputPrompt, setInputPrompt] = useState<string>("");
 
-  const [chatLog, setChatLog] = useState<ChatLogEntry[]>([]);
+  const { chatlog, addObject } = useChatLogContext();
   const [err, setErr] = useState<string | boolean>(false);
   const [responseFromAPI, setResponseFromAPI] = useState<boolean>(false);
   const [inputHeight, setInputHeight] = useState<number>(35);
-  const chatLogEndRef = useRef<HTMLDivElement | null>(null);
 
-  const updateChatPromptById = (id: number, newChatPrompt: string) => {
-    setChatLog((prevChatLog) =>
-      prevChatLog.map((chat, idx) =>
-        idx === id ? { ...chat, chatPrompt: newChatPrompt } : chat,
-      ),
-    );
-  };
-  const handleKeyDownByID = (
-    id: number,
-    e: React.KeyboardEvent<HTMLTextAreaElement>,
-  ) => {
-    if (e.key === "Enter" && e.shiftKey) {
-      setChatLog((prevChatLog) =>
-        prevChatLog.map((chat, idx) =>
-          idx === id ? { ...chat, inputHeight: inputHeight + 21 } : chat,
-        ),
-      );
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
       setInputHeight((preHeight) => {
@@ -67,11 +39,11 @@ const Home = () => {
     if (!responseFromAPI && inputPrompt.trim() !== "") {
       const newChatLogEntry = {
         chatPrompt: inputPrompt,
-        botMessage: null,
-        inputHeight: inputHeight,
+        botMessage: null
       };
 
-      setChatLog((prevChatLog) => [...prevChatLog, newChatLogEntry]);
+      addObject(newChatLogEntry);
+
       // hide the keyboard in mobile devices
       // e.target.querySelector("input").blur();
       setInputHeight(35);
@@ -95,13 +67,10 @@ const Home = () => {
           });
         }
         const data = await response.json();
+        setnewChatPromt(true);
 
-        // Update chat log with the new response
-        if (chatLog.length >= 0) setnewChatPromt(true);
-        setChatLog((prevChatLog) => [
-          ...prevChatLog.slice(0, prevChatLog.length - 1), // all entries except the last
-          { ...newChatLogEntry, botMessage: data.botResponse }, // update the last entry with the bot's response
-        ]);
+        addObject({ ...newChatLogEntry, botMessage: data.botResponse }, true);
+
 
         setErr(false);
       } catch (error) {
@@ -135,10 +104,9 @@ const Home = () => {
           const newChatLogEntry = {
             chatPrompt: msg.chatPrompt,
             botMessage: msg.botMessage,
-            inputHeight: 0,
           };
 
-          setChatLog((prevChatLog) => [...prevChatLog, newChatLogEntry]);
+          addObject(newChatLogEntry)
         });
       }
       console.log('Fetched messages:', messages);
@@ -160,67 +128,49 @@ const Home = () => {
     <>
       <SubscribeNow />
 
-      <div className="flex relative">
-        <div className="w-[332px] bg-[#F7F7F7] rounded-md h-[calc(100vh-120px)] z-10 overflow-auto">
-          {chatLog.length > 0 &&
-            chatLog.map((chat, idx) => (
-              <NavLinks
-                text={chat.chatPrompt}
-                link={"#chat-" + idx}
-                setChatLog={function (value: React.SetStateAction<string[]>): void {
-                  console.log("Function not implemented.");
-                }}
-                key={idx}
-                svg={
-                 <ChatAiSvg size={21}/>
-                }
-              />
-            ))}
-        </div>
-
-        <div
-          dir="ltr"
-          className="h-[calc(100vh-120px)] w-full overflow-auto absolute z-0"
-          id="chat-body"
-        >
-          <div className="relative py-2 sm:py-3 md:py-4">
-            {chatLog.length > 0 && (
-              <div>
-                {chatLog.map((chat, idx) => (
-                  <div key={idx} id={`chat-${idx}`}>
-                    <UserPrompt
-                      inputPrompt={chat.chatPrompt}
-                    />
-                    <div>
-                      {chat.botMessage === null ? (
-                        <Loading />
-                      ) : err ? (
-                        <Error
-                          message={
-                            typeof err === "string" ? err : "An error occurred."
-                          }
-                        />
-                      ) : (
-                        <BotMessage botMessage={chat.botMessage} />
-                      )}
-                    </div>
+      <div
+        dir="ltr"
+        className="h-[calc(100vh-120px)] w-full overflow-auto absolute z-0"
+        id="chat-body"
+      >
+        <div className="relative py-2 sm:py-3 md:py-4">
+          {chatlog.length > 0 && (
+            <div>
+              {chatlog.map((chat, idx) => (
+                <div key={idx} id={`chat-${idx}`}>
+                  <UserPrompt
+                    inputPrompt={chat.chatPrompt}
+                  />
+                  <div>
+                    {chat.botMessage === null ? (
+                      <Loading />
+                    ) : err ? (
+                      <Error
+                        message={
+                          typeof err === "string" ? err : "An error occurred."
+                        }
+                      />
+                    ) : (
+                      <BotMessage botMessage={chat.botMessage} />
+                    )}
                   </div>
-                ))}
-              </div>
-            )}
-            {newChatPromt && (
-              <ChatPrompt
-                inputHeight={inputHeight}
-                handleKeyDown={handleKeyDown}
-                inputPrompt={inputPrompt}
-                setInputPrompt={setInputPrompt}
-                handleSubmit={handleSubmit}
-              />
-            )}
-            <div className="min-h-[40px] w-full"></div>
-          </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {newChatPromt && (
+            <ChatPrompt
+              inputHeight={inputHeight}
+              handleKeyDown={handleKeyDown}
+              inputPrompt={inputPrompt}
+              setInputPrompt={setInputPrompt}
+              handleSubmit={handleSubmit}
+            />
+          )}
+          <div className="min-h-[40px] w-full"></div>
         </div>
       </div>
+
     </>
   );
 };

@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./auth/Provider";
 import NavBar from "./NavBar";
-
+import { ChatLogProvider } from "./context/ChatLog";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,10 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AuthProvider>
-        <body>
-          <NavBar />
-          {children}
-        </body>
+        <ChatLogProvider>
+          <body>
+            <NavBar />
+            {children}
+          </body>
+        </ChatLogProvider>
       </AuthProvider>
     </html>
   );
