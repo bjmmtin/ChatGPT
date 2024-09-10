@@ -13,16 +13,19 @@ import UserMessage from "./components/UserMessage";
 
 const ChatGPT = () => {
   const { status, data: session } = useSession();
+
   const [newChatPromt, setnewChatPromt] = useState<boolean>(false);
-  const [inputPrompt, setInputPrompt] = useState<string>("");
+  // const [inputPrompt, setInputPrompt] = useState<string>("");
   const [err, setErr] = useState<string | boolean>(false);
   const [responseFromAPI, setResponseFromAPI] = useState<boolean>(false);
-  const [inputHeight, setInputHeight] = useState<number>(35);
 
   // Add a reference to the chat container
   const chatBodyRef = useRef<HTMLDivElement>(null);
 
   const {
+    inputPrompt,
+    setInputPrompt,
+    setInputHeight,
     chatlog,
     addObject,
     addHistory,
@@ -121,6 +124,11 @@ const ChatGPT = () => {
       }
     }
   };
+
+  /*
+   If the user is authenticated, it fetches the chat history (conversations) associated with their email.
+   It loops through each history entry and adds it to the state using addHistory.
+  */
   const fetchHistoryByEmail = useCallback(async () => {
     try {
       const response = await fetch(
@@ -149,6 +157,10 @@ const ChatGPT = () => {
     }
   }, [session?.user?.email]);
 
+  /*
+   When a specific chat history (conversation) is selected, it fetches all messages 
+   (user and bot) for that conversation and populates the chat log using addObject.
+  */
   const fetchMessagesByEmail = useCallback(async () => {
     try {
       const response = await fetch(
@@ -177,6 +189,10 @@ const ChatGPT = () => {
     }
   }, [currentHistory?.id]);
 
+  /*
+   On component load, if the user is authenticated, it initializes chat history and calls
+   fetchHistoryByEmail to load all previous chat histories.
+  */
   useEffect(() => {
     if (status === "authenticated") {
       initHistory();
@@ -184,6 +200,10 @@ const ChatGPT = () => {
     }
   }, [fetchHistoryByEmail, status]);
 
+  /*
+   When the currentHistory changes (i.e., a specific chat is selected), it triggers a fetch 
+   of all messages associated with that history.
+  */
   useEffect(() => {
     if (currentHistory?.name !== undefined && status === "authenticated") {
       initChatLog();
@@ -233,10 +253,7 @@ const ChatGPT = () => {
           </div>
           <ChatPrompt
             newChatPromt={newChatPromt}
-            inputHeight={inputHeight}
             handleKeyDown={handleKeyDown}
-            inputPrompt={inputPrompt}
-            setInputPrompt={setInputPrompt}
             handleSubmit={handleSubmit}
           />
         </div>
