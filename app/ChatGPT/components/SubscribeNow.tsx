@@ -3,8 +3,8 @@ import React from "react";
 const NavBar = () => {
   return (
     <div
-      className="flex h-[48px] w-full flex-col items-center justify-center gap-2
-        border-b px-3 py-2 sm:flex-row"
+      className="flex h-[48px] w-full items-center justify-center gap-2
+        border-b px-3 py-2 md:flex-row"
     >
       <div className="flex flex-col gap-1 py-1.5 text-sm font-medium">
         <div>

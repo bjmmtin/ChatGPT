@@ -8,28 +8,19 @@ export async function GET(req: NextRequest) {
   if (req.method === 'GET') {
       const searchParams = req.nextUrl.searchParams
       console.log(searchParams);
-      const email = searchParams.get('email')
+      const history = searchParams.get('history')
     // Extract the email from the query parameters
     
-    if (!email || typeof email !== 'string') {
-      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+    if (!history ) {
+      return NextResponse.json({ error: "Invalid history" }, { status: 400 });
     }
 
     try {
-      // Step 1: Find the user by email
-      const user = await prisma.user.findUnique({
-        where: { email: email },
-      });
 
-      if (!user) {
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
-      }
-
-      // Step 2: Fetch all messages associated with this user
       const messages = await prisma.message.findMany({
-        where: { userId: user.id }, // Filter messages by userId
+        where: { historyId: parseInt(history,10) }, // Filter messages by userId
         include: {
-          user: true, // Include user info if needed
+          history: true, // Include history info if needed
         },
       });
 

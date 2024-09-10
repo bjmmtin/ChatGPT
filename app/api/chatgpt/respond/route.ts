@@ -11,7 +11,7 @@ const openai = new OpenAI({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { message, userEmail, date } = body;
+    const { message, userEmail, history } = body;
 
     console.log(userEmail);
 
@@ -32,25 +32,15 @@ export async function POST(request: NextRequest) {
     // If the user is not a 'Guest', save the message in the database
     if (userEmail !== "Guest") {
       try {
-        // Step 1: Find the user by email
-        const user = await prisma.user.findUnique({
-          where: { email: userEmail },
-        });
 
-        if (!user) {
-          console.log(`User not found with email: ${userEmail}`);
-        } else {
-          // Step 2: Create a new message linked to the user
-          const newMessage = await prisma.message.create({
-            data: {
-              userId: user.id,
-              botMessage: botResponse ?? Prisma.JsonNull,
-              chatPrompt: message,
-              createdAt: date ? new Date(date) : new Date(),
-            },
-          });
-          console.log("Message saved:", newMessage);
-        }
+        const newMessage = await prisma.message.create({
+          data: {
+            historyId: history,
+            botMessage: botResponse ?? Prisma.JsonNull,
+            chatPrompt: message,
+          },
+        });
+        console.log("Message saved:", newMessage);
       } catch (error) {
         console.error("Error saving message to database:", error);
       }

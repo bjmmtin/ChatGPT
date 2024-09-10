@@ -12,7 +12,7 @@ const BotMessage: React.FC<Props> = ({ botMessage }) => {
         <div className="flex-1 overflow-hidden px-2">
           <div className="overflow-x-auto  pt-2">
             <div className="relative p-1 rounded-sm flex items-center justify-center bg-token-main-surface-primary text-token-text-primary h-8 w-8">
-              <ChatAiSvg size={41}/>
+              <ChatAiSvg size={41} />
             </div>
             <div>
               <div className="px-1 pb-2">

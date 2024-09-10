@@ -2,47 +2,40 @@ import React, { useEffect, useRef } from 'react'
 import { useChatLogContext } from '@/app/context/ChatLog'
 import ChatAiSvg from './ChatAISvg';
 import NavLinks from './NavLink';
-interface Props {
-    setActiveSidebar: (active: boolean) => void
-}
 
-const SideBar: React.FC<Props> = ({ setActiveSidebar }) => {
-    const navbarRef = useRef<HTMLDivElement | null>(null);
+const SideBar = () => {
 
-    const handleClickOutside = (event: MouseEvent) => {
-        event.stopPropagation
-        if (navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
-            setActiveSidebar(false); // Hide navbar
-        }
-    };
-    useEffect(() => {
-        // Add event listener
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            // Cleanup the event listener
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    })
-
-    const { chatlog } = useChatLogContext();
+    const ModalOverlay = () => (
+        <div
+            className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 z-20`}
+            onClick={() => {
+                setActiveSidebar(prev => !prev);
+            }}
+        />
+    )
+    const { chathistory, setCurrentHistory, activeSidebar, setActiveSidebar } = useChatLogContext();
     return (
-        <div className="w-[332px] bg-[#F7F7F7] fixed mt-[70px] rounded-md h-[100vh] z-10 overflow-auto" ref={navbarRef}>
-            {chatlog.length > 0 &&
-                chatlog.map((chat, idx) => (
-                    <NavLinks
-                        text={chat.chatPrompt}
-                        link={"#chat-" + idx}
-                        setChatLog={function (value: React.SetStateAction<string[]>): void {
-                            console.log("Function not implemented.");
-                        }}
-                        key={idx}
-                        svg={
-                            <ChatAiSvg size={21} />
-                        }
-                    />
-                ))}
-        </div>
+        <>
+            {activeSidebar &&
+                <div className="w-[332px] bg-[#F7F7F7] md:relative fixed rounded-md h-[calc(100vh-112px)] z-30 overflow-auto" >
+                    {chathistory.length > 0 &&
+                        chathistory.map((history, idx) => (
+                            <NavLinks
+                                text={history.name}
+                                link={"#chat-" + idx}
+                                setChatHistory={() => setCurrentHistory(history)}
+                                key={idx}
+                                svg={
+                                    <ChatAiSvg size={21} />
+                                }
+                            />
+                        ))}
+                </div>}
+            {activeSidebar ? <ModalOverlay/>:<></>}
+        </>
     );
 };
 
 export default SideBar;
+
+

@@ -5,17 +5,17 @@ interface NavLinksProps {
   svg: React.ReactNode;
   link: string;
   text: string;
-  setChatLog: React.Dispatch<React.SetStateAction<string[]>>;
+  setChatHistory: () => void;
 }
 
 const NavLinks: React.FC<NavLinksProps> = ({
   svg,
   link,
   text,
-  setChatLog,
+  setChatHistory,
 }) => {
   return (
-    <Link href={link} className="flex items-start p-4 hover:bg-[#909e9e1a]">
+    <Link href={link} className="flex items-start p-4 hover:bg-[#909e9e1a]" onClick={setChatHistory}>
       <div className="">
         {svg}
       </div>
