@@ -15,10 +15,12 @@ const NavLinks: React.FC<NavLinksProps> = ({
   setChatHistory,
 }) => {
   return (
-    <Link href={link} className="flex items-start p-4 hover:bg-[#909e9e1a]" onClick={setChatHistory}>
-      <div className="">
-        {svg}
-      </div>
+    <Link
+      href={link}
+      className="flex items-start p-4 hover:bg-[#909e9e1a]"
+      onClick={setChatHistory}
+    >
+      <div className="">{svg}</div>
       <pre className="ml-8 whitespace-pre-wrap break-words">{text}</pre>
     </Link>
   );

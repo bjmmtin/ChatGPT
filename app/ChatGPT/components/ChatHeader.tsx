@@ -1,19 +1,32 @@
 import React from "react";
-import HistorySVG from "./HistorySVG"
-import NewChatSVG from "./NewChatSVG"
+import HistorySVG from "./HistorySVG";
+import NewChatSVG from "./NewChatSVG";
 import { useChatLogContext, HistoryEntry } from "../../context/ChatLog";
-const NavBar = () => {
-  const { initChatLog, setCurrentHistory, setActiveSidebar } = useChatLogContext();
+
+const ChatHeader = () => {
+  const { initChatLog, setCurrentHistory, toggleSidebar } = useChatLogContext();
+
   return (
     <div className="flex border-b">
       <div className="flex md:pl-4">
-        <div className="flex text-gray-500 pt-3 " data-state="closed">
-          <button aria-label="Open sidebar" className="h-10 hover:bg-[#909e9e1a] rounded-lg px-2 focus-visible:outline-0" onClick={() => setActiveSidebar((prev: boolean) => !prev)}>
+        <div className="flex pt-3 text-gray-500 " data-state="closed">
+          <button
+            aria-label="Open sidebar"
+            className="h-10 rounded-lg px-2 hover:bg-[#909e9e1a] focus-visible:outline-0"
+            onClick={toggleSidebar}
+          >
             <HistorySVG size={31} />
           </button>
         </div>
-        <div className="flex text-gray-500 pt-3" data-state="closed">
-          <button aria-label="New chat" className="h-10 rounded-lg px-2 hover:bg-[#909e9e1a] focus-visible:outline-0" onClick={() => { initChatLog(); setCurrentHistory(undefined as unknown as HistoryEntry) }}>
+        <div className="flex pt-3 text-gray-500" data-state="closed">
+          <button
+            aria-label="New chat"
+            className="h-10 rounded-lg px-2 hover:bg-[#909e9e1a] focus-visible:outline-0"
+            onClick={() => {
+              initChatLog();
+              setCurrentHistory(undefined as unknown as HistoryEntry);
+            }}
+          >
             <NewChatSVG size={31} />
           </button>
         </div>
@@ -55,4 +68,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default ChatHeader;

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 
 interface ChatPromptProps {
   newChatPromt: boolean;
@@ -16,18 +16,18 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({
   inputPrompt,
   setInputPrompt,
   handleSubmit,
-  newChatPromt
+  newChatPromt,
 }) => {
   return (
     <div className="flex justify-center  ">
-      <div className=" bottom-2 w-full  px-1 py-2 flex justify-center md:mx-auto md:max-w-3xl xl:max-w-4xl ">
-        <div className="flex-1 bg-background-root border-outline p-2 border-md overflow-hidden rounded-md border border-solid  bg-[#F7F7F7]">
+      <div className=" bottom-2 flex  w-full justify-center px-1 py-2 md:mx-auto md:max-w-3xl xl:max-w-4xl ">
+        <div className="bg-background-root border-outline border-md flex-1 overflow-hidden rounded-md border border-solid bg-[#F7F7F7]  p-2">
           <form className="stretch flex flex-row" onSubmit={handleSubmit}>
             <div className="flex w-full flex-col">
               <div className="relative flex w-full">
-                <div className="relative flex w-full justify-center flex-col gap-y-2">
+                <div className="relative flex w-full flex-col justify-center gap-y-2">
                   <textarea
-                    className="overflow-auto whitespace-pre-wrap break-words text-foreground m-0  h-full  resize-none rounded-md border border-solid p-1.5 text-sm outline-none focus-visible:bg-white hover:bg-[#909e9e1a] focus-visible:border focus-visible:border-[#3b82f6]  focus-visible:ring-2 focus-visible:ring-blue-500"
+                    className="text-foreground m-0 h-full resize-none overflow-auto  whitespace-pre-wrap  break-words rounded-md border border-solid p-1.5 text-sm outline-none hover:bg-[#909e9e1a] focus-visible:border focus-visible:border-[#3b82f6] focus-visible:bg-white  focus-visible:ring-2 focus-visible:ring-blue-500"
                     onKeyDown={handleKeyDown}
                     disabled={newChatPromt}
                     value={inputPrompt}
@@ -62,7 +62,8 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({
           </form>
         </div>
       </div>
-    </div>);
+    </div>
+  );
 };
 
 export default ChatPrompt;
