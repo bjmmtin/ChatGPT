@@ -9,7 +9,7 @@ import ChatPrompt from "./components/ChatPrompt";
 import Error from "./components/Error";
 import Loading from "./components/Loading";
 import SideBar from "./components/SideBar";
-import UserPrompt from "./components/UserPrompt";
+import UserMessage from "./components/UserMessage";
 
 const ChatGPT = () => {
   const { status, data: session } = useSession();
@@ -209,7 +209,7 @@ const ChatGPT = () => {
                 <div>
                   {chatlog.map((chat, idx) => (
                     <div key={idx} id={`chat-${idx}`}>
-                      <UserPrompt inputPrompt={chat.chatPrompt} />
+                      <UserMessage inputPrompt={chat.chatPrompt} />
                       <div>
                         {chat.botMessage === null ? (
                           <Loading />
