@@ -1,13 +1,11 @@
-import Footer from "./Footer";
-import Land from "./land";
+import LandingTemplate from "./LandingTemplate";
 
-export default function Example() {
+export default function LandingPage() {
   return (
     <>
       <main className="lg:flex-1">
-        <Land />
+        <LandingTemplate />
       </main>
-      <Footer />
     </>
   );
 }
