@@ -1,18 +1,24 @@
-// context/ChatLogContext.tsx
 "use client";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-// Define the type for your object
+// Represents an individual entry in the chat log, which contains:
+// 1) chatPrompt: A string representing what the user (or client) has sent in the chat.
+// 2) botMessage: A string representing the response message from the bot (can be null if no response yet).
 export interface ChatLogEntry {
   chatPrompt: string;
   botMessage: string | null;
 }
+
+// Represents a saved chat history entry with:
+// id: A unique identifier for each history entry.
+// name: A string that may describe or label the history entry.
 export interface HistoryEntry {
   id: number;
   name: string;
 }
 
-// Define the context type
+// Defines the structure of the context value, which includes the state
+// variables and the functions you want to expose to other components:
 interface ChatLogContextType {
   chatlog: ChatLogEntry[];
   addObject: (obj: ChatLogEntry, index?: boolean) => void;
@@ -81,7 +87,7 @@ export const ChatLogProvider: React.FC<{ children: ReactNode }> = ({
         setCurrentHistory,
         activeSidebar,
         setActiveSidebar,
-        toggleSidebar, // Provide the toggle function
+        toggleSidebar,
       }}
     >
       {children}

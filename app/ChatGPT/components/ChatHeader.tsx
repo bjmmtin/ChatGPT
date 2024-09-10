@@ -1,10 +1,10 @@
-import React from "react";
+import { useChatStore } from "@/app/store/store";
+import { HistoryEntry } from "../../context/ChatLog";
 import HistorySVG from "./HistorySVG";
 import NewChatSVG from "./NewChatSVG";
-import { useChatLogContext, HistoryEntry } from "../../context/ChatLog";
 
 const ChatHeader = () => {
-  const { initChatLog, setCurrentHistory, toggleSidebar } = useChatLogContext();
+  const { initChatLog, setCurrentHistory, toggleSidebar } = useChatStore();
 
   return (
     <div className="flex border-b">

@@ -1,11 +1,10 @@
-import React from "react";
-import { useChatLogContext } from "@/app/context/ChatLog";
+import { useChatStore } from "@/app/store/store";
 import ChatAiSvg from "./ChatAISvg";
 import NavLinks from "./NavLink";
 
 const SideBar = () => {
   const { chathistory, setCurrentHistory, activeSidebar, toggleSidebar } =
-    useChatLogContext();
+    useChatStore();
 
   const ModalOverlay = () => (
     <div

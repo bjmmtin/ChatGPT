@@ -1,14 +1,15 @@
 "use client";
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import { useSession } from "next-auth/react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { HistoryEntry } from "../context/ChatLog";
+import { useChatStore } from "../store/store";
 import BotMessage from "./components/BotMessage";
+import ChatHeader from "./components/ChatHeader";
 import ChatPrompt from "./components/ChatPrompt";
-import UserPrompt from "./components/UserPrompt";
 import Error from "./components/Error";
 import Loading from "./components/Loading";
-import ChatHeader from "./components/ChatHeader";
-import { useSession } from "next-auth/react";
 import SideBar from "./components/SideBar";
-import { useChatLogContext, HistoryEntry } from "../context/ChatLog";
+import UserPrompt from "./components/UserPrompt";
 
 const Home = () => {
   const { status, data: session } = useSession();
@@ -29,7 +30,7 @@ const Home = () => {
     setCurrentHistory,
     initChatLog,
     initHistory,
-  } = useChatLogContext();
+  } = useChatStore();
 
   // Scroll to the bottom of the chat container whenever a new message is added
   useEffect(() => {
