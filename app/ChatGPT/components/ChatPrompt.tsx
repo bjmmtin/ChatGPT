@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import VoiceRecognition from "./VoiceRecognition";
 
 interface ChatPromptProps {
   newChatPromt: boolean;
@@ -38,6 +39,9 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({
                     id="chat-textarea-941a1f65-71b0-4a64-8a3a-3322f2c886fb"
                     placeholder="Ask a question..."
                   ></textarea>
+                </div>
+                <div className="flex">
+                  <VoiceRecognition inputPrompt={inputPrompt} setInputPrompt={setInputPrompt} />
                 </div>
                 <div className="flex w-[100px] flex-row items-start justify-end pt-0.5">
                   <button
