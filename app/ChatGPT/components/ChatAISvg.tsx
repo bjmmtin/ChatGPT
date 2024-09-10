@@ -3,6 +3,7 @@ import React from "react";
 interface Props {
   size: number;
 }
+
 const ChatAiSvg: React.FC<Props> = ({ size }) => {
   return (
     <svg

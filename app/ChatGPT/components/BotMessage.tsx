@@ -15,6 +15,7 @@ const BotMessage: React.FC<Props> = ({ botMessage }) => {
             <div className="bg-token-main-surface-primary text-token-text-primary relative flex h-8 w-8 items-center justify-center rounded-sm p-1">
               <ChatAiSvg size={41} />
             </div>
+            {/* chat message container */}
             <div>
               <div className="px-1 pb-2">
                 <div className="markdown prose prose-sm prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-headings:my-2 prose-p:my-2 prose-blockquote:my-2 prose-blockquote:font-normal prose-pre:rounded-none prose-li:pl-1 prose-ol:pl-2  prose-ol:pb-2 prose-pre:bg-transparent prose-li:m-0 prose-ul:p-0 prose-ol:m-0 prose-ul:m-0 prose-hr:my-4 prose-th:font-semibold prose-tr:border-border prose-tr:border-b prose-th:text-left max-w-full leading-[1.5rem] text-black">
@@ -24,6 +25,7 @@ const BotMessage: React.FC<Props> = ({ botMessage }) => {
                 </div>
               </div>
             </div>
+            {/* interactive message controls */}
             <div className="flex items-center justify-between transition-opacity group-hover:opacity-100">
               <div className="flex gap-x-1.5 rounded-md pb-1">
                 <button className="text-foreground flex h-fit items-center justify-center gap-x-1 rounded-md border border-solid p-1 text-xs font-medium hover:bg-[#909e9e1a]">

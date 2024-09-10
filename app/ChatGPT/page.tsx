@@ -11,7 +11,7 @@ import Loading from "./components/Loading";
 import SideBar from "./components/SideBar";
 import UserPrompt from "./components/UserPrompt";
 
-const Home = () => {
+const ChatGPT = () => {
   const { status, data: session } = useSession();
   const [newChatPromt, setnewChatPromt] = useState<boolean>(false);
   const [inputPrompt, setInputPrompt] = useState<string>("");
@@ -245,4 +245,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ChatGPT;
