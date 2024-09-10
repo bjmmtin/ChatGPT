@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import BotMessage from "./components/BotMessage";
 import ChatPrompt from "./components/ChatPrompt";
 import UserPrompt from "./components/UserPrompt"
@@ -11,7 +11,6 @@ import SideBar from "./components/SideBar";
 import { useChatLogContext, HistoryEntry } from "../context/ChatLog";
 
 const Home = () => {
-
   const { status, data: session } = useSession();
   const [newChatPromt, setnewChatPromt] = useState<boolean>(false);
   const [inputPrompt, setInputPrompt] = useState<string>("");
@@ -21,11 +20,19 @@ const Home = () => {
   const [responseFromAPI, setResponseFromAPI] = useState<boolean>(false);
   const [inputHeight, setInputHeight] = useState<number>(35);
 
+  // Add a reference to the chat container
+  const chatBodyRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to the bottom of the chat container whenever a new message is added
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [chatlog]);
+
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
-      setInputHeight((preHeight) => {
-        return preHeight + 21;
-      });
+      setInputHeight((preHeight) => preHeight + 21);
     } else if (e.key === "Enter") {
       handleSubmit(e);
     }
@@ -43,13 +50,13 @@ const Home = () => {
 
       addObject(newChatLogEntry);
       setInputHeight(35);
-      setInputPrompt(""); // Clear input after submitting
-      setResponseFromAPI(true); // Indicate that a response is being awaited
+      setInputPrompt(""); 
+      setResponseFromAPI(true); 
       setnewChatPromt(true);
+
       try {
         let response = null;
         if (status === 'authenticated') {
-
           if (chatlog.length === 0) {
             const result = await fetch('/api/chatgpt/history', {
               method: 'POST',
@@ -59,7 +66,6 @@ const Home = () => {
 
             const data = await result.json();
             const { id, name } = data.newHistory;
-
             setCurrentHistory({ id: id, name: name } as HistoryEntry);
 
             response = await fetch("/api/chatgpt/respond", {
@@ -67,7 +73,6 @@ const Home = () => {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ message: inputPrompt, userEmail: session.user?.email, history: id }),
             });
-
           } else {
             response = await fetch("/api/chatgpt/respond", {
               method: "POST",
@@ -75,14 +80,14 @@ const Home = () => {
               body: JSON.stringify({ message: inputPrompt, userEmail: session.user?.email, history: currentHistory?.id }),
             });
           }
-        }
-        else {
+        } else {
           response = await fetch("/api/chatgpt/respond", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: inputPrompt, userEmail: "Guest" }),
           });
         }
+
         const data = await response.json();
         setnewChatPromt(false);
 
@@ -90,10 +95,9 @@ const Home = () => {
 
         setErr(false);
       } catch (error) {
-        // setErr(error);
-        // console.log(error | undefined);
+        console.log(error);
       } finally {
-        setResponseFromAPI(false); // Reset after receiving the response
+        setResponseFromAPI(false);
       }
     }
   };
@@ -167,22 +171,22 @@ const Home = () => {
   return (
     <>
       <SubscribeNow />
-      <div className="flex ">
+      <div className="flex">
         <SideBar />
         <div className="flex-1">
+          {/* Attach the ref to the chat body */}
           <div
             dir="ltr"
-            className="h-[calc(100vh-219px)]  w-full overflow-auto z-0"
+            className="h-[calc(100vh-219px)] w-full overflow-auto z-0"
             id="chat-body"
+            ref={chatBodyRef} // reference for scrolling
           >
-            <div className=" py-2 sm:py-3 md:py-4">
+            <div className="py-2 sm:py-3 md:py-4">
               {chatlog.length > 0 && (
                 <div>
                   {chatlog.map((chat, idx) => (
                     <div key={idx} id={`chat-${idx}`}>
-                      <UserPrompt
-                        inputPrompt={chat.chatPrompt}
-                      />
+                      <UserPrompt inputPrompt={chat.chatPrompt} />
                       <div>
                         {chat.botMessage === null ? (
                           <Loading />
@@ -210,7 +214,6 @@ const Home = () => {
             setInputPrompt={setInputPrompt}
             handleSubmit={handleSubmit}
           />
-
         </div>
       </div>
     </>
