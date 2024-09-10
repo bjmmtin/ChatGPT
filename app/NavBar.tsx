@@ -5,29 +5,22 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import HistorySVG from "./ChatGPT/components/HistorySVG"
-import NewChatSVG from "./ChatGPT/components/NewChatSVG"
-import { useChatLogContext, HistoryEntry } from "./context/ChatLog";
-import SideBar from "./ChatGPT/components/SideBar";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
-  const { initChatLog, setCurrentHistory, activeSidebar, setActiveSidebar } = useChatLogContext();
+
   const [active, setActive] = useState('ChatGPT');
-  const [isMobile, setIsMobile] = useState(false);
+
   const { status, data: session } = useSession();
 
   const lists = ['Landing', 'ChatGPT', 'About Us', 'Calendar'];
   const urls = ['/', '/ChatGPT', '#', '#'];
   const pathname = usePathname();
-  const checkMobile = () => {
-    setIsMobile(window.matchMedia('(max-width: 768px)').matches);
-  };
+
   useEffect(() => {
-    checkMobile();
     if (pathname === '/ChatGPT') setActive('ChatGPT');
     else if (pathname === '/') setActive('Landing');
     else setActive('');
@@ -38,24 +31,11 @@ export default function Navbar() {
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
         <>
-          {activeSidebar && isMobile && <SideBar setActiveSidebar={setActiveSidebar}/>}
           <div className="  px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 justify-between">
               <div className="flex">
 
-                {active === 'ChatGPT' &&
-                  <div className="flex pr-12">
-                    <div className="flex text-gray-500 pt-3 " data-state="closed">
-                      <button aria-label="Open sidebar" className="h-10 hover:bg-[#909e9e1a] rounded-lg px-2 focus-visible:outline-0" onClick={() => setActiveSidebar((prev: boolean) => !prev)}>
-                        <HistorySVG size={31} />
-                      </button>
-                    </div>
-                    <div className="flex text-gray-500 pt-3" data-state="closed">
-                      <button aria-label="New chat" className="h-10 rounded-lg px-2 hover:bg-[#909e9e1a] focus-visible:outline-0" onClick={() => { initChatLog(); setCurrentHistory(undefined as unknown as HistoryEntry) }}>
-                        <NewChatSVG size={31} />
-                      </button>
-                    </div>
-                  </div>}
+                
                 <div className="flex flex-shrink-0 items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
