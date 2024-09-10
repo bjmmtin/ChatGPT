@@ -15,7 +15,6 @@ const ChatGPT = () => {
   const { status, data: session } = useSession();
 
   const [newChatPromt, setnewChatPromt] = useState<boolean>(false);
-  // const [inputPrompt, setInputPrompt] = useState<string>("");
   const [err, setErr] = useState<string | boolean>(false);
   const [responseFromAPI, setResponseFromAPI] = useState<boolean>(false);
 
