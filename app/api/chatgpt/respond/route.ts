@@ -9,6 +9,13 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: NextRequest) {
+  if (request.method !== "POST") {
+    return NextResponse.json(
+      { error: `Method ${request.method} Not Allowed` },
+      { status: 405 },
+    );
+  }
+
   try {
     const body = await request.json();
     const { message, userEmail, history } = body;
@@ -32,7 +39,6 @@ export async function POST(request: NextRequest) {
     // If the user is not a 'Guest', save the message in the database
     if (userEmail !== "Guest") {
       try {
-
         const newMessage = await prisma.message.create({
           data: {
             historyId: history,

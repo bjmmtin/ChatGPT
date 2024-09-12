@@ -5,6 +5,7 @@ import "./globals.css";
 import AuthProvider from "./auth/Provider";
 import NavBar from "./NavBar";
 import { ChatLogProvider } from "./context/ChatLog";
+import Footer from "./Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({
           <body>
             <NavBar />
             {children}
+            <Footer />
           </body>
         </ChatLogProvider>
       </AuthProvider>

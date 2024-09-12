@@ -1,19 +1,10 @@
 import { create } from "zustand";
 
-/*
- Represents an individual entry in the chat log, which contains:
- 1) chatPrompt: A string representing what the user (or client) has sent in the chat.
- 2) botMessage: A string representing the response message from the bot (can be null if no response yet).
-*/
 export interface ChatLogEntry {
   chatPrompt: string;
   botMessage: string | null;
 }
 
-/* 
- Represents a saved chat history entry with a unique identifier for each history 
- entry and a string that may describe or label the history entry.
-*/
 export interface HistoryEntry {
   id: number;
   name: string;
@@ -31,11 +22,17 @@ export const useChatStore = create<{
   activeSidebar: boolean;
   toggleSidebar: () => void;
   setActiveSidebar: (boo: boolean) => void;
+  inputPrompt: string;
+  setInputPrompt: (prompt: string) => void;
+  inputHeight: number;
+  setInputHeight: (height: number) => void;
 }>((set) => ({
   chatlog: [],
   chathistory: [],
   currentHistory: undefined,
   activeSidebar: false,
+  inputPrompt: "",
+  inputHeight: 35,
 
   addObject: (obj: ChatLogEntry, index = false) =>
     set((state) => {
@@ -73,5 +70,15 @@ export const useChatStore = create<{
   setActiveSidebar: (boo: boolean) =>
     set(() => ({
       activeSidebar: boo,
+    })),
+
+  setInputPrompt: (prompt: string) =>
+    set(() => ({
+      inputPrompt: prompt,
+    })),
+
+  setInputHeight: (height: number) =>
+    set(() => ({
+      inputHeight: height,
     })),
 }));

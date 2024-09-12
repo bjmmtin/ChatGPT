@@ -1,24 +1,21 @@
 import React from "react";
 import Image from "next/image";
 import VoiceRecognition from "./VoiceRecognition";
+import { useChatStore } from "@/app/store/store";
 
 interface ChatPromptProps {
   newChatPromt: boolean;
-  inputHeight: number; // Height for the textarea
   handleKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void; // Function to handle key down events
-  inputPrompt: string; // Current value of the textarea
-  setInputPrompt: (str: string) => void; // Function to update the inputPrompt
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void; // Function to handle form submission
 }
 
 const ChatPrompt: React.FC<ChatPromptProps> = ({
-  inputHeight,
   handleKeyDown,
-  inputPrompt,
-  setInputPrompt,
   handleSubmit,
   newChatPromt,
 }) => {
+  const { inputPrompt, setInputPrompt, inputHeight } = useChatStore();
+
   return (
     <div className="flex justify-center  ">
       <div className=" bottom-2 flex  w-full justify-center px-1 py-2 md:mx-auto md:max-w-3xl xl:max-w-4xl ">
@@ -41,7 +38,10 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({
                   ></textarea>
                 </div>
                 <div className="flex">
-                  <VoiceRecognition inputPrompt={inputPrompt} setInputPrompt={setInputPrompt} />
+                  <VoiceRecognition
+                    inputPrompt={inputPrompt}
+                    setInputPrompt={setInputPrompt}
+                  />
                 </div>
                 <div className="flex w-[100px] flex-row items-start justify-end pt-0.5">
                   <button
