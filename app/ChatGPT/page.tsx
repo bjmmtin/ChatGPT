@@ -14,7 +14,8 @@ import UserMessage from "./components/UserMessage";
 const ChatGPT = () => {
   const { status, data: session } = useSession();
 
-  const [newChatPromt, setnewChatPromt] = useState<boolean>(false);
+  const [isProcessingMessage, setIsProcessingMessage] =
+    useState<boolean>(false);
   const [err, setErr] = useState<string | boolean>(false);
   const [responseFromAPI, setResponseFromAPI] = useState<boolean>(false);
 
@@ -41,14 +42,6 @@ const ChatGPT = () => {
     }
   }, [chatlog]);
 
-  const handleKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && e.shiftKey) {
-      setInputHeight((preHeight) => preHeight + 21);
-    } else if (e.key === "Enter") {
-      handleSubmit(e);
-    }
-  };
-
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement | HTMLTextAreaElement>,
   ) => {
@@ -63,7 +56,7 @@ const ChatGPT = () => {
       setInputHeight(35);
       setInputPrompt("");
       setResponseFromAPI(true);
-      setnewChatPromt(true);
+      setIsProcessingMessage(true);
 
       try {
         let response = null;
@@ -80,7 +73,7 @@ const ChatGPT = () => {
 
             const data = await result.json();
             const { id, name } = data.newHistory;
-            setCurrentHistory({ id: id, name: name } as HistoryEntry);
+            setCurrentHistory({ id, name } as HistoryEntry);
 
             response = await fetch("/api/chatgpt/respond", {
               method: "POST",
@@ -111,10 +104,8 @@ const ChatGPT = () => {
         }
 
         const data = await response.json();
-        setnewChatPromt(false);
-
+        setIsProcessingMessage(false);
         addObject({ ...newChatLogEntry, botMessage: data.botResponse }, true);
-
         setErr(false);
       } catch (error) {
         console.log(error);
@@ -251,8 +242,7 @@ const ChatGPT = () => {
             </div>
           </div>
           <ChatPrompt
-            newChatPromt={newChatPromt}
-            handleKeyDown={handleKeyDown}
+            isProcessingMessage={isProcessingMessage}
             handleSubmit={handleSubmit}
           />
         </div>

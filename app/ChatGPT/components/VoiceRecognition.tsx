@@ -33,11 +33,6 @@ interface SpeechRecognition extends EventTarget {
   onend: () => void;
 }
 
-interface Props {
-  inputPrompt: string;
-  setInputPrompt: (str: string) => void;
-}
-
 const VoiceRecognition = () => {
   const { setInputPrompt } = useChatStore();
 
