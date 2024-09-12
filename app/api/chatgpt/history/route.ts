@@ -2,77 +2,88 @@ require("dotenv").config();
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 
-
-
 export async function GET(req: NextRequest) {
-    if (req.method === 'GET') {
-        const searchParams = req.nextUrl.searchParams
-        console.log(searchParams);
-        const email = searchParams.get('email')
-        // Extract the email from the query parameters
+  if (req.method !== "GET") {
+    return NextResponse.json(
+      { error: `Method ${req.method} Not Allowed` },
+      { status: 405 },
+    );
+  }
 
-        if (!email || typeof email !== 'string') {
-            return NextResponse.json({ error: "Invalid email" }, { status: 400 });
-        }
-        try {
-            const user = await prisma.user.findUnique({
-                where: { email: email },
-            });
+  const searchParams = req.nextUrl.searchParams;
+  const email = searchParams.get("email");
 
-            if (!user) {
-                return NextResponse.json({ error: 'User not found' }, { status: 404 });
-            }
-            // Step 2: Fetch all messages associated with this user
-            const histories = await prisma.history.findMany({
-                where: { userId: user.id }, // Filter messages by userId
-                include: {
-                    user: true, // Include user info if needed
-                },
-            });
-            return NextResponse.json({ histories }, { status: 200 });
-        } catch (error) {
-            console.error('Error fetching messages:', error);
-            return NextResponse.json({ error: 'Error fetching messages' }, { status: 500 });
-        }
-    } else {
-        return NextResponse.json({ error: `Method ${req.method} Not Allowed` }, { status: 405 });
+  if (!email || typeof email !== "string") {
+    return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
+
+    // Fetch histories associated with this user
+    const histories = await prisma.history.findMany({
+      where: { userId: user.id },
+      include: { user: true }, // Include user info if needed
+    });
+
+    return NextResponse.json({ histories }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching histories:", error);
+    return NextResponse.json(
+      { error: "Error fetching histories" },
+      { status: 500 },
+    );
+  }
 }
 
-export async function POST(request: NextRequest) {
-    try {
+export async function POST(req: NextRequest) {
+  if (req.method !== "POST") {
+    return NextResponse.json(
+      { error: `Method ${req.method} Not Allowed` },
+      { status: 405 },
+    );
+  }
 
-        const body = await request.json();
-        const { name, userEmail } = body;
+  try {
+    const body = await req.json();
+    const { name, userEmail } = body;
 
-        // Validate the name and userEmail
-        if (!name || !userEmail) {
-            return NextResponse.json({ error: "Invalid input" }, { status: 400 });
-        }
-
-        const user = await prisma.user.findUnique({
-            where: { email: userEmail },
-        });
-
-        if (!user) {
-            console.log(`User not found with email: ${userEmail}`);
-        } else {
-            // Step 2: Create a new message linked to the user
-            const newHistory = await prisma.history.create({
-                data: {
-                    userId: user.id,
-                    name: name
-                },
-            });
-            console.log("Message saved:", newHistory);
-            return NextResponse.json({ newHistory }, { status: 201 });
-        }
+    // Validate the input
+    if (!name || !userEmail) {
+      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
-    catch (error) {
-        console.error("Error calling OpenAI:", error);
-        return NextResponse.json(
-            { error: `Failed to generate response from OpenAI: ${error}` },
-            { status: 500 },
-        );
+
+    const user = await prisma.user.findUnique({
+      where: { email: userEmail },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: `User not found with email: ${userEmail}` },
+        { status: 404 },
+      );
     }
+
+    // Create a new history linked to the user
+    const newHistory = await prisma.history.create({
+      data: {
+        userId: user.id,
+        name,
+      },
+    });
+
+    return NextResponse.json({ newHistory }, { status: 201 });
+  } catch (error) {
+    console.error("Error creating new history:", error);
+    return NextResponse.json(
+      { error: "Error creating new history" },
+      { status: 500 },
+    );
+  }
 }
