@@ -1,36 +1,41 @@
 "use client";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { PlusIcon } from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Navbar() {
+
+  const [active, setActive] = useState('ChatGPT');
+
   const { status, data: session } = useSession();
+
+  const lists = ['Landing', 'ChatGPT', 'About Us', 'Calendar'];
+  const urls = ['/', '/ChatGPT', '#', '#'];
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === '/ChatGPT') setActive('ChatGPT');
+    else if (pathname === '/') setActive('Landing');
+    else setActive('');
+  }, [pathname]);
+
+
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="  px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 justify-between">
               <div className="flex">
-                <div className="-ml-2 mr-2 flex items-center md:hidden">
-                  {/* Mobile menu button */}
-                  <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                    <span className="absolute -inset-0.5" />
-                    <span className="sr-only">Open main menu</span>
-                    {open ? (
-                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                    ) : (
-                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                    )}
-                  </Disclosure.Button>
-                </div>
+
+                
                 <div className="flex flex-shrink-0 items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -39,50 +44,24 @@ export default function Example() {
                     alt="Your Company"
                   />
                 </div>
+
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                  <a
-                    href="#"
-                    className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
-                  >
-                    Landing
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Market
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    About Us
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Calendar
-                  </a>
+                  {lists.map((list, index) => (
+                    <Link
+                      href={urls[index]}
+                      className={list === active ? "inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900" : "inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                      } key={index}
+                      onClick={() => setActive(list)}
+                    >
+                      {list}
+                    </Link>
+                  ))}
                 </div>
               </div>
               <div className="flex items-center">
                 {status === "authenticated" ? (
                   <div className="flex">
-                    <div className="flex-shrink-0">
-                      <button
-                        type="button"
-                        className="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      >
-                        <PlusIcon
-                          className="-ml-0.5 h-5 w-5"
-                          aria-hidden="true"
-                        />
-                        Add
-                      </button>
-                    </div>
-
                     <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
                       <button
                         type="button"
@@ -95,7 +74,7 @@ export default function Example() {
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
-                          <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                          <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none px-2 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             {/* AVATAR PLACE HOLDER */}
@@ -108,6 +87,14 @@ export default function Example() {
                                 <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                               </svg>
                             </span>
+                            <div className="ml-3">
+                              <div className="text-base font-medium text-gray-800">
+                                {session.user?.name}
+                              </div>
+                              <div className="text-sm font-medium text-gray-500">
+                                {session.user?.email}
+                              </div>
+                            </div>
                           </Menu.Button>
                         </div>
                         <Transition
@@ -183,6 +170,18 @@ export default function Example() {
                   </div>
                 )}
               </div>
+              <div className="-ml-2 mr-2 flex items-center md:hidden">
+                {/* Mobile menu button */}
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <span className="absolute -inset-0.5" />
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
             </div>
           </div>
 
@@ -220,20 +219,21 @@ export default function Example() {
             </div>
             <div className="border-t border-gray-200 pb-3 pt-4">
               <div className="flex items-center px-4 sm:px-6">
-                <div className="flex-shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </div>
+                <span className="inline-block h-8 w-8 overflow-hidden rounded-full bg-gray-100">
+                  <svg
+                    className="h-full w-full text-gray-300"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </span>
                 <div className="ml-3">
                   <div className="text-base font-medium text-gray-800">
-                    Tom Cook
+                    {session?.user?.name}
                   </div>
                   <div className="text-sm font-medium text-gray-500">
-                    tom@example.com
+                    {session?.user?.email}
                   </div>
                 </div>
                 <button
@@ -270,6 +270,7 @@ export default function Example() {
               </div>
             </div>
           </Disclosure.Panel>
+
         </>
       )}
     </Disclosure>

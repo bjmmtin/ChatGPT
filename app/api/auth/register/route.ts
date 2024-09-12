@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
 import prisma from "@/prisma/client";
@@ -9,10 +9,10 @@ export async function POST(request: NextRequest) {
 
   //validate
   const validation = schema.safeParse(body);
-
+  
   //if invalid - return 400
   if (!validation.success)
-    return NextResponse.json(validation.error.errors, { status: 400 });
+    return NextResponse.json(validation.error?.errors, { status: 400 });
 
   //check if user exists
   const user = await prisma.user.findUnique({

@@ -14,9 +14,33 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  email          String   @unique
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
   hashedPassword String?
   name           String
-  registeredAt   DateTime @default(now())
+  registeredAt   DateTime  @default(now())
+  histories       History[] // Relation: One User has many Histories
 }
+
+model Message {
+  id           Int       @id @default(autoincrement())
+  historyId    Int       // Foreign key: links to History model
+  botMessage   Json    // Message sent by the bot
+  chatPrompt   Json    // Chat prompt from the user
+  createdAt    DateTime  @default(now()) // Timestamp
+  history      History   @relation(fields: [historyId], references: [id]) // Relation to History
+
+  @@index([historyId]) // Optional: index for faster lookups by historyId
+}
+
+model History {
+  id          Int      @id @default(autoincrement())
+  userId       Int       // Foreign key: links to User model
+  name        Json   // The name of the history
+  messages    Message[] // Relation to Message model
+  createdAt    DateTime  @default(now()) // Timestamp
+  user         User      @relation(fields: [userId], references: [id]) // Relation to User
+  
+  @@index([userId]) // Optional: index for faster lookups by userId
+}
+
