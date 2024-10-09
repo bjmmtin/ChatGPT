@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "esnext", // Add this to specify the ECMAScript target version
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler", // Keep this if using module resolution for bundlers like Vite
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "webpack.config.ts",
+    "app/ChatGPT/components/Header.tsx",
+    "app/ChatGPT/components/ChatPrompt.tsx"
+  ],
+  "exclude": ["node_modules"]
+}
